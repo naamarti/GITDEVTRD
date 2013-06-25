@@ -1,0 +1,15 @@
+			</div> <!-- divPageBody -->
+			<%@ include file="pageStatus.jspf" %>
+		</div> <!-- divLayout -->
+		<div ${layoutShowIconBar == "1" ? "" : "style='display:none;'"}>
+			<%@ include file="iconBar.jspf" %>
+		</div>
+		<%@ include file="pageFooter.jspf" %>
+		<%@ include file="popUpForm.jspf" %>
+		<%@ include file="popUpMessage.jspf" %>
+		<%@ include file="formHiddenSessionFields.jspf" %>
+	</form>
+</body>
+</html>
+<c:set var="layoutShowIconBar" value="0" />
+<!-- layoutStandard End -->

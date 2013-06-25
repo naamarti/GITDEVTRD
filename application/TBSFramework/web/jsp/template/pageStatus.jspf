@@ -1,0 +1,21 @@
+<!-- pageStatus Start -->
+<div id="divPageStatus" style="padding:12px 8px; width:${layoutPageBodyWidth-18}px; min-height:18px; background-color:#FFFFFF; ${layoutHasPageBorder == "true" ? "border:1px solid #808080; border-top:none;" : "" }" >
+	<div id="pageStatusMessage">
+		<div id="pageStatusMessageSuccess" class="tbs-ui-message-success tbsStyleShadow2" style="display:none; margin-bottom:6px;" ></div>
+		<div id="pageStatusMessageError" class="tbs-ui-message-error tbsStyleShadow2" style="display:none; margin-bottom:6px;" ></div>
+		<div id="pageStatusMessageWarning" class="tbs-ui-message-warning tbsStyleShadow2" style="display:none; margin-bottom:6px;" ></div>
+		<div id="pageStatusMessageInfo" class="tbs-ui-message-info tbsStyleShadow2" style="display:none; margin-bottom:6px;" ></div>
+		<c:if test="${ !fn:startsWith(model.environmentName, 'PRD') && fn:length(model.sessionMessageDebug) > 0 }" >
+			<div id="pageStatusMessageDebug" class="tbs-ui-message-info tbsStyleShadow2" style="margin-top:30px; margin-bottom:6px;" >
+				<b>DEBUG INFO:</b>
+				&nbsp;(<i>these details will <u>not</u> be displayed in Production</i>)
+				<br/><br/>
+				${model.sessionMessageDebug}
+			</div>
+		</c:if>
+	</div>
+</div>
+<div id="divPageStatusPleaseWait" class="tbs-ui-status-pleasewait tbsStyleShadow2"> 
+	<span id="pageStatusMessageProcessing">&nbsp;</span>
+</div>
+<!-- pageStatus End -->

@@ -1,0 +1,5 @@
+<!-- pagePleaseWait Start -->
+<div id="divPleaseWait" class="tbsStylePleaseWait"> 
+  <img src="images/animated_wait.gif"> &nbsp;&nbsp;Please wait...
+</div>
+<!-- pagePleaseWait End -->

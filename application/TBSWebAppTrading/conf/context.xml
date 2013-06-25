@@ -1,0 +1,30 @@
+<Context path="" docBase="" reloadable="true" >
+
+  <Resource 
+    name="jdbc/appDataSource"
+    auth="Container"
+    type="javax.sql.DataSource"
+    factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+    url="jdbc:sqlserver://@SQLSERVER@;databaseName=TBS_Trading;@SQLJAVACONNECTIONSTRING@;"
+    driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+    username="@SQLUSER@"
+    password="@SQLPASSWORD@"
+    maxActive="100"
+    maxIdle="100"
+    minIdle="10"
+    maxWait="30000"
+    initialSize="10"
+    removeAbandoned="true"
+    removeAbandonedTimeout="60"
+    logAbandoned="true"
+    validationQuery="SELECT 1"
+    validationInterval="30000"
+    testWhileIdle="true"
+    testOnBorrow="true"
+    testOnReturn="false"
+    timeBetweenEvictionRunsMillis="60000"
+    jmxEnabled="false"
+    jdbcInterceptors="ConnectionState; StatementFinalizer"
+  />
+
+</Context>

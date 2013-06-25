@@ -1,0 +1,70 @@
+<!-- iconBar Start -->
+<div style="bottom:0; margin-left:20px; margin-bottom:10px; width:120px; height:120px; position:fixed; z-index:11;" >
+	<div onClick="jScript.menu.navigateToURL('accountHome.htm')" class="tbs-ui-dashboard-tile-grey" style="padding-left:6px; width:120px; height:120px;" >
+		<div style="margin-left:auto; margin-right:auto; margin-top:16px; width:64px; height:64px;" >
+			<img src="images/home1_64.png" height="64px;" width="64px;" style="border-style:none;" alt=""/>
+		</div>
+		<div class="tbs-ui-dashboard-tile-link" style="margin-left:3px; margin-top:16px;" >
+			Account Home
+		</div>
+	</div>
+</div>
+
+<div style="bottom:0; margin-left:160px; margin-bottom:10px; width:120px; height:120px; position:fixed; z-index:11;" >
+	<div onClick="jScript.menu.navigateToURL('market.htm')" class="tbs-ui-dashboard-tile-orange" style="padding-left:6px; width:120px; height:120px;" >
+		<div style="margin-left:auto; margin-right:auto; margin-top:16px; width:64px; height:64px;" >
+			<img src="images/market1_64.png" height="64px;" width="64px;" style="border-style:none;" alt=""/>
+		</div>
+		<div class="tbs-ui-dashboard-tile-link" style="margin-left:3px; margin-top:16px;" >
+			Market
+		</div>
+	</div>
+</div>
+
+<div style="bottom:0; margin-left:300px; margin-bottom:10px; width:120px; height:120px; position:fixed; z-index:11;" >
+	<div onClick="jScript.menu.navigateToURL('orderEntry.htm')" class="tbs-ui-dashboard-tile-grey" style="padding-left:6px; width:120px; height:120px;" >
+		<div style="margin-left:auto; margin-right:auto; margin-top:16px; width:64px; height:64px;" >
+			<img src="images/computer2_64.png" height="64px;" width="64px;" style="border-style:none;" alt=""/>
+		</div>
+		<div class="tbs-ui-dashboard-tile-link" style="margin-left:3px; margin-top:16px;" >
+			Trade
+		</div>
+	</div>
+</div>
+
+<div style="bottom:0; margin-left:440px; margin-bottom:10px; width:120px; height:120px; position:fixed; z-index:11;" >
+	<div onClick="jScript.menu.navigateToURL('siteDocuments.htm')" class="tbs-ui-dashboard-tile-orange" style="padding-left:6px; width:120px; height:120px;" >
+		<div style="margin-left:auto; margin-right:auto; margin-top:16px; width:64px; height:64px;" >
+			<img src="images/legalPaper1_64.png" height="64px;" width="64px;" style="border-style:none;" alt=""/>
+		</div>
+		<div class="tbs-ui-dashboard-tile-link" style="margin-left:3px; margin-top:16px;" >
+			Disclosures
+		</div>
+	</div>
+</div>
+
+<div style="bottom:0; margin-left:580px; margin-bottom:10px; width:120px; height:120px; position:fixed; z-index:11;" >
+	<div onClick="jScript.menu.navigateToURL('companyNews.htm')" class="tbs-ui-dashboard-tile-grey" style="padding-left:6px; width:120px; height:120px;" >
+		<div style="margin-left:auto; margin-right:auto; margin-top:16px; width:64px; height:64px;" >
+			<img src="images/news1_64.png" height="64px;" width="64px;" style="border-style:none;" alt=""/>
+		</div>
+		<div class="tbs-ui-dashboard-tile-link" style="margin-left:3px; margin-top:16px;" >
+			Company News
+		</div>
+	</div>		
+</div>
+
+<div style="bottom:0; margin-left:720px; margin-bottom:10px; width:120px; height:120px; position:fixed; z-index:11;" >
+	<div onClick="jScript.menu.navigateToURL('financialDocuments.htm')" class="tbs-ui-dashboard-tile-orange" style="padding-left:6px; width:120px; height:120px;" >
+		<div style="margin-left:auto; margin-right:auto; margin-top:16px; width:64px; height:64px;" >
+			<img src="images/money2_64.png" height="64px;" width="64px;" style="border-style:none;" alt=""/>
+		</div>
+		<div class="tbs-ui-dashboard-tile-link" style="margin-left:3px; margin-top:16px;" >
+			Financials
+		</div>
+	</div>
+</div>
+
+
+
+<!-- iconBar End -->

@@ -1,0 +1,33 @@
+<!-- popUpMessage Start -->
+<div id="divPopUpMessageBlanket" name="divPopUpMessageBlanket" class="tbsStylePopUpMessageBlanket"></div>
+<div id="divPopUpMessage" name="divPopUpMessage" class="tbsStylePopUpMessage tbsStyleShadow2" style="width:500px; height:255px;">
+	<div class="tbsStylePopUpMessageHeader" style="width:100%; height:24px; overflow:hidden;" >
+		<div style="margin-right:3px; margin-top:3px; width:28px; float:right; overflow:hidden;" >
+			<a id="popUpMessageWindowClose" href="#cccc" class="links">
+				<img src="images/close.gif" width="28px" height="15px" style="border-style:none;">
+			</a>
+		</div>
+		<div id="popUpMessageTitle" style="margin-left:3px; margin-top:2px; width:80%; float:left; overflow:hidden;"></div>
+	</div>
+
+	<div class="tbsStylePopUpMessageContent" style="margin-left:3px; margin-top:3px; width:24px; height:24px; overflow:hidden;" >
+		<img id="popUpMessageImageInfo" src="images/info1_24.png" width="24px" height="24px" style="border-style:none;" />
+		<img id="popUpMessageImageQuestion" src="images/help1_24.png" width="24px" height="24px" style="border-style:none;" />
+		<img id="popUpMessageImageWait" src="images/animated_wait2.gif" height="24px" width="24px" style="border-style:none;" />
+		<img id="popUpMessageImageWarning" src="images/attention2_24.png" width="24px" height="24px" style="border-style:none;" />
+		<img id="popUpMessageImageZoom" src="images/zoom1_24.png" width="24px" height="24px" style="border-style:none;" />
+	</div>
+
+	<div id="popUpMessageContent" class="tbsStylePopUpMessageContent" style="margin-left:4%; width:95%; height:180px; overflow-x:auto; overflow-y:auto;" ></div>
+
+	<div id="popUpMessageFooter" class="tbsStylePopUpMessageContent" style="width:100%; height:24px; overflow:hidden;" >
+		<div style="margin-right:18px; width:100px; height:24px; float:right; overflow:hidden;" >
+			<input id="popUpMessageButtonOK" name="popUpMessageButtonOK" type="button" class="button" alignment="center" value="OK" style="width:100px;" />
+			<input id="popUpMessageButtonClose" name="popUpMessageButtonClose" type="button" class="button" alignment="center" value="Close" style="width:100px;" />
+		</div>
+		<div style="margin-right:6px; width:100px; height:24px; float:right; overflow:hidden;" >
+			<input id="popUpMessageButtonCancel" name="popUpMessageButtonCancel" type="button" class="button" alignment="center" value="Cancel" style="width:100px;" />
+		</div>
+	</div>
+</div>
+<!-- popUpMessage End -->

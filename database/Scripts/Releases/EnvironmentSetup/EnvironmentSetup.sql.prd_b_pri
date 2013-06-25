@@ -1,0 +1,18 @@
+---------------------------------------------------------------------------
+-- Handles Environment specific changes for initialization
+-- EnvironmentSetup.Checklist.non_prod.sql will handle all checklist changes needed
+---------------------------------------------------------------------------
+
+SET NOCOUNT ON;
+
+DECLARE @ENV varchar(30)
+
+SET @ENV = 'PRDB'
+
+-----------------------------------------------------------------------------------------
+-- 1. Update EnvironmentName
+-----------------------------------------------------------------------------------------
+UPDATE AppConfiguration SET EnvironmentName = @ENV
+
+
+GO

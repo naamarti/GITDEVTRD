@@ -1,0 +1,9 @@
+<div id="${buttonId}" name="${buttonId}" class="tbsStyleWidgetButton" style="position:relative; width:132px; height:38px;" >
+	<div class="tbsStyleButtonCanvas" >&nbsp;</div>
+	<div class="tbsStyleButtonImage">
+		<c:if test="${fn:length(buttonImage) > 0}">
+			<img src="images/${buttonImage}" width="16px" height="16px" style="border-style:none;" alt="" />
+		</c:if>
+	</div>
+	<div class="tbsStyleButton" >${buttonText}</div>
+</div>

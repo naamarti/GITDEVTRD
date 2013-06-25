@@ -1,0 +1,72 @@
+<%--
+
+[ Header -------------------------------------------------------]
+| [PageLogo] %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |
+[---------------------------------------------------------------]
+
+
+[ Layout -------------------------------------------------------]
+|                                                               |
+|    [ Body =================================================]  |
+|    | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |
+|    | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |
+|    | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |
+|    | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |
+|    [=======================================================]  |
+|                                                               |
+|    [ Status ===============================================]  |
+|    | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |
+|    [=======================================================]  |
+|                                                               |
+[---------------------------------------------------------------]
+
+[ IconBar ------------------------------------------------------]
+| %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |
+[---------------------------------------------------------------]
+
+[ Footer -------------------------------------------------------]
+| %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |
+[---------------------------------------------------------------]
+
+--%>
+<c:set var="layoutWidth" value="960" />
+<c:set var="layoutMenuTopWidth" value="${layoutWidth}" />
+<c:set var="layoutPageBodyMinHeight" value="400" />
+<c:set var="layoutPageLogoWidth" value="130" />
+<c:set var="layoutPageHeaderWidth" value="${layoutWidth - layoutPageLogoWidth}" />
+<c:set var="layoutPageBodyWidth" value="${layoutWidth}" />
+<c:set var="layoutPageStatusWidth" value="${layoutWidth}" />
+<c:set var="layoutPageFooterWidth" value="${layoutWidth}" />
+<c:set var="layoutHasPageBorder" value="false" />
+<c:if test="${empty layoutShowIconBar || layoutShowIconBar == ''}">
+	<c:set var="layoutShowIconBar" value="0" />
+</c:if>
+<!-- layoutStandard Start -->
+<html>
+<head>
+	<%@ include file="pageHeaderSettings.jspf" %>
+	<c:if test="${not empty javaScriptFile}">
+		<script src="js/${javaScriptFile}" type="text/javascript"></script>
+	</c:if>
+	<c:if test="${not empty javaScriptOnReady}">
+		<script>
+			jQuery(document).ready(function () {
+				${javaScriptOnReady}
+			});
+		</script>
+	</c:if>
+</head>
+<body>
+	<a name="cccc"></a>
+	<form id="mainForm" name="mainForm" method="post">
+		<div style="width:${layoutWidth}px; overflow:hidden; ">
+			<div style="width:${layoutPageLogoWidth}px; float:left; overflow:hidden; ">
+				<%@ include file="pageLogo.jspf" %>
+			</div>
+			<div style="width:${layoutPageHeaderWidth}px; float:left; overflow:hidden; ">
+				<%@ include file="pageHeader.jspf" %>			
+			</div>
+		</div>
+		<%@ include file="menuTop.jspf" %>			
+		<div id="divLayout" style="width:${layoutWidth}px; overflow:hidden; ">
+			<div id="divPageBody" name="divPageBody" style="position:relative; left:0px; top:0px; width:${layoutPageBodyWidth-2}px; min-height:${layoutPageBodyMinHeight}px; background-color:#FFFFFF; overflow:hidden;" >

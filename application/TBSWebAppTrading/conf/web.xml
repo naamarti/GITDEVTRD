@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE web-app PUBLIC 
+    '-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN' 
+    'http://java.sun.com/dtd/web-app_2_3.dtd'>
+
+<web-app 
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0"> 
+
+	<!-- =========================================================================================================================== -->
+	<!-- Application Initialization Parameters.                                                                                      -->
+	<!--     http://ekawas.blogspot.com/2011/01/servletcontextlistener-reading-init.html                                             -->
+	<!-- =========================================================================================================================== -->
+	<context-param>
+		<param-name>cacheDefaultExpiresInSeconds</param-name>
+		<param-value>300</param-value>
+	</context-param>
+
+	<!-- =========================================================================================================================== -->
+	<!-- Application Initialization:                                                                                                 -->
+	<!--     ContextListener allows you to perform actions after the context is ready, but before any servlets are created.          -->
+	<!--     http://www.coderanch.com/t/553449/Servlets/java/why-we-servlet-context-listener                                         -->
+	<!--     http://stackoverflow.com/questions/3468150/using-init-servlet                                                           -->
+	<!-- =========================================================================================================================== -->
+	<listener>
+		<listener-class>com.totalbanksolutions.framework.web.startup.ApplicationStartup</listener-class>
+	</listener>
+	
+	<!-- =========================================================================================================================== -->
+	<!-- Main Dispatcher Servlet.                                                                                                    -->
+	<!-- =========================================================================================================================== -->
+	<servlet>
+		<servlet-name>dms</servlet-name>
+		<servlet-class>com.totalbanksolutions.framework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+		<init-param>
+			<param-name>controllerClassRoot</param-name>
+			<param-value>com.totalbanksolutions.trading.web.controller</param-value>
+		</init-param>    
+	</servlet>
+
+	<!-- =========================================================================================================================== -->
+	<!-- Servlet Mappings:	                                                                                                         -->
+	<!--     All pages ending in *.htm will be handled by our Dispatcher Servlet.                                                    -->
+	<!-- =========================================================================================================================== -->
+	<servlet-mapping>
+		<servlet-name>dms</servlet-name>
+		<url-pattern>*.htm</url-pattern>
+	</servlet-mapping>
+
+	<!-- =========================================================================================================================== -->
+	<!-- Session Timeout.                                                                                                            -->
+	<!-- =========================================================================================================================== -->
+	<session-config>
+		<session-timeout>180</session-timeout> 
+	</session-config>
+
+	<!-- =========================================================================================================================== -->
+	<!-- Default web page.                                                                                                           -->
+	<!-- =========================================================================================================================== -->
+	<!-- 
+	<welcome-file-list>
+		<welcome-file>
+			/WEB-INF/jsp/index.jsp
+		</welcome-file>
+	</welcome-file-list>
+	-->
+
+	<!-- =========================================================================================================================== -->
+	<!-- Redirect known errors to standard error page.                                                                               -->
+	<!-- =========================================================================================================================== -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/jsp/error.jsp</location>
+	</error-page>
+
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/jsp/error.jsp</location>
+	</error-page>
+
+</web-app>

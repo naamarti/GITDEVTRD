@@ -1,0 +1,4 @@
+<c:set var="buttonId" value="buttonPrevious" />
+<c:set var="buttonImage" value="back_16.png" />
+<c:set var="buttonText" value="Previous" />
+<%@ include file="button.jspf" %>

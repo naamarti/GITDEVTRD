@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+<project name="TBSWebAppTrading" basedir="." default="init">
+
+	<!-- 
+	 * =================================================================================================
+	 * Modified:  12 Dec 2012 VC:
+	 * ================================================================================================= 
+    -->
+
+  	<!-- Enable access to operating system environment variables -->
+	<property environment="env"/>
+
+	<!-- Global properties shared across build scripts  -->
+	<property name="deploy.env.to" value="${env.DMS_DEPLOY_TO_ENV}"/>
+	<property name="deploy.sql.server" value="${env.DMS_DEPLOY_TO_SQLSERVER}"/>
+	<property name="deploy.sql.user" value="${env.DMS_SQL_USER}"/>
+	<property name="deploy.sql.password" value="${env.DMS_SQL_PASSWORD}"/>
+	<property name="deploy.url.baseaddr" value="${env.DMS_URL_BASEADDR}"/>	
+	<property name="deploy.dms.home.log" value="${env.DMS_HOME_LOG}" />
+	<property name="deploy.sql.javaconnectionstring" value="${env.DMS_SQL_JAVA_CONNECTION_STRING}"/>
+	<property name="deploy.dir.source.shared.lib" value="../lib"/>
+	<property name="deploy.dir.source.shared.bin" value="../bin"/>
+	<property name="deploy.dir.source.shared.framework" value="../TBSFramework"/>
+	<property name="deploy.dir.target.root" value="//${env.DMS_DEPLOY_TO_APPSERVER}/${env.DMS_DEPLOY_TO_APPSERVER_SHARE}/deployment"/>
+	<property name="deploy.log" value="${env.DEPLOY_LOG}"/>
+
+	<!-- WebApp properties local for this script  -->
+	<property name="web.url" value="trading"/>
+	<property name="web.dir.source.root" value="${basedir}"/>
+	<property name="web.jarfile" value="${ant.project.name}.jar"/>
+
+	<property name="web.dir.source.tomcat.root" value="${env.TOMCAT_HOME}" />
+    <property name="web.dir.target.tomcat.root1" value="//${env.DMS_DEPLOY_TO_APPSERVER}/${env.DMS_DEPLOY_TO_APPSERVER_SHARE}/deployment/apache-tomcat-7.0.27"/>
+    <property name="web.dir.target.tomcat.root2" value="//${env.DMS_DEPLOY_TO_APPSERVER}/${env.DMS_DEPLOY_TO_APPSERVER_SHARE}/deployment/apache-tomcat"/>
+    <property name="web.dir.target.tomcat.app1" value="${web.dir.target.tomcat.root1}/webapps/${web.url}"/>
+    <property name="web.dir.target.tomcat.app2" value="${web.dir.target.tomcat.root2}/webapps/${web.url}"/>
+
+    <!--
+    <property name="web.dir.target.tomcat.working" value="${web.dir.target.tomcat.root}/work/Catalina/localhost/${web.url}"/>
+	-->
+	
+    <property name="web.dir.target.webserver.1" value="//${env.DMS_DEPLOY_TO_WEBSERVER.1}/${env.DMS_DEPLOY_TO_WEBSERVER_SHARE}/deployment/application/${ant.project.name}/wwwroot"/>
+    <property name="web.dir.target.webserver.2" value="//${env.DMS_DEPLOY_TO_WEBSERVER.2}/${env.DMS_DEPLOY_TO_WEBSERVER_SHARE}/deployment/application/${ant.project.name}/wwwroot"/>
+    <property name="web.dir.target.webserver.3" value="//${env.DMS_DEPLOY_TO_WEBSERVER.3}/${env.DMS_DEPLOY_TO_WEBSERVER_SHARE}/deployment/application/${ant.project.name}/wwwroot"/>
+    <property name="web.dir.target.webserver.4" value="//${env.DMS_DEPLOY_TO_WEBSERVER.4}/${env.DMS_DEPLOY_TO_WEBSERVER_SHARE}/deployment/application/${ant.project.name}/wwwroot"/>
+
+	<path id="master-classpath">
+		<fileset dir="${deploy.dir.source.shared.lib}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${deploy.dir.source.shared.framework}/lib">
+			<include name="**/TBSFrameworkTrading.jar"/>
+		</fileset>
+	</path>
+
+	<target name="init" depends="" description="Init">
+		<record name="${deploy.log}" loglevel="info" append="true"/>
+		<condition property="isLocalDeploy">
+			<equals arg1="local" arg2="${deploy.env.to}" />
+		</condition>
+		<condition property="deploy.logginglevel" value="INFO" else="DEBUG">
+			<contains string="${deploy.env.to}" substring="PRD" casesensitive="false"  />
+		</condition>
+
+		<echo message=""/>
+		<echo message="-------------------------------------------------------------------------"/>
+		<echo message="${ant.project.name} build file"/>
+		<echo message="-------------------------------------------------------------------------"/>
+		<echo message="ant.project.name                    = ${ant.project.name}"/>
+		<echo message="basedir                             = ${basedir}"/>
+		<echo message="deploy.env.to                       = ${deploy.env.to}"/>
+		<echo message="isLocalDeploy                       = ${isLocalDeploy}"/>
+		<echo message="deploy.logginglevel                 = ${deploy.logginglevel}"/>
+		<echo message="deploy.sql.server                   = ${deploy.sql.server}"/>
+		<echo message="deploy.sql.user                     = ${deploy.sql.user}"/>
+		<echo message="deploy.sql.password                 = ${deploy.sql.password}"/>
+		<echo message="deploy.url.baseaddr	           = ${deploy.url.baseaddr}"/>
+		<echo message="deploy.dms.home.log                 = ${deploy.dms.home.log}"/>		
+		<echo message="deploy.sql.javaconnectionstring     = ${deploy.sql.javaconnectionstring}"/>
+		<echo message="deploy.dir.source.shared.lib        = ${deploy.dir.source.shared.lib}"/>
+		<echo message="deploy.dir.source.shared.bin        = ${deploy.dir.source.shared.bin}"/>
+		<echo message="deploy.dir.source.shared.framework  = ${deploy.dir.source.shared.framework}"/>
+		<echo message="deploy.dir.target.root              = ${deploy.dir.target.root}"/>
+		<echo message="deploy.log                          = ${deploy.log}"/>
+		<echo message="-------------------------------------------------------------------------"/>
+		<echo message="web.url                             = ${web.url}"/>
+		<echo message="web.dir.source.root                 = ${web.dir.source.root}"/>
+		<echo message="web.jarfile                         = ${web.jarfile}"/>
+		<echo message="-------------------------------------------------------------------------"/>
+		<echo message="web.dir.source.tomcat.root          = ${web.dir.source.tomcat.root}"/>
+		<echo message="web.dir.target.tomcat.app1          = ${web.dir.target.tomcat.app1}"/>
+		<echo message="web.dir.target.tomcat.app2          = ${web.dir.target.tomcat.app2}"/>
+		<echo message="-------------------------------------------------------------------------"/>		
+		<echo message="web.dir.target.webserver.1          = ${web.dir.target.webserver.1}"/>
+		<echo message="web.dir.target.webserver.2          = ${web.dir.target.webserver.2}"/>
+		<echo message="web.dir.target.webserver.3          = ${web.dir.target.webserver.3}"/>
+		<echo message="web.dir.target.webserver.4          = ${web.dir.target.webserver.4}"/>
+		<echo message="-------------------------------------------------------------------------"/>
+    	<echo message=""/>
+	</target>
+
+	<target name="clean-framework">
+		<ant dir="../TBSFramework" antfile="build-trading.xml" target="clean-framework" />
+	</target>	
+
+	<target name="deploy-framework">
+		<ant dir="../TBSFramework" antfile="build-trading.xml" target="deploy-framework" />
+	</target>
+	
+	<target name="clean" depends="init, clean-framework" description="Clean all output directories">
+		<delete verbose="true" failonerror="false" includeEmptyDirs="true">
+			<fileset dir="${web.dir.source.root}/build"/>
+			<fileset dir="${web.dir.target.tomcat.app1}"/>
+			<fileset dir="${web.dir.target.tomcat.app2}"/>
+		</delete>
+		<delete file="${web.jarfile}"/>
+	</target>
+
+	<target name="deploy-appserver-compile" description="Compile main source tree java files">
+		<mkdir dir="${web.dir.source.root}/build/bin"/>
+		<javac destdir="${web.dir.source.root}/build/bin" debug="true" deprecation="false" optimize="false" failonerror="true" verbose="false">
+			<src path="${web.dir.source.root}/src"/>
+			<classpath refid="master-classpath"/>
+		</javac>
+	</target>
+
+	<target name="deploy-appserver-dirs" depends="" description="Create required deployment directories">
+		<mkdir dir="${web.dir.source.root}/lib"/>
+		<mkdir dir="${deploy.dir.target.root}/application/${ant.project.name}/logs"/>
+
+		<mkdir dir="${web.dir.source.root}/build/web/META-INF"/>
+		<mkdir dir="${web.dir.source.root}/build/web/WEB-INF/classes"/>
+		<mkdir dir="${web.dir.source.root}/build/web/WEB-INF/jsp"/>
+		<mkdir dir="${web.dir.source.root}/build/web/WEB-INF/lib"/>
+	</target>
+	
+	<target name="deploy-appserver-config" depends="" description="Deploy configuration files and update placeholders">
+		<delete file="${web.dir.source.root}/build/web/META-INF/context.xml"/>
+		<delete file="${web.dir.source.root}/build/web/WEB-INF/classes/log4j.properties"/>
+
+		<copy file="${web.dir.source.root}/conf/context.xml" todir="${web.dir.source.root}/build/web/META-INF" preservelastmodified="true" verbose="true" />
+		<copy file="${web.dir.source.root}/conf/web.xml" todir="${web.dir.source.root}/build/web/WEB-INF" preservelastmodified="true" verbose="true" />
+		<copy file="${web.dir.source.root}/conf/log4j.properties" todir="${web.dir.source.root}/build/web/WEB-INF/classes" preservelastmodified="true" verbose="true" />
+
+		<replace file="${web.dir.source.root}/build/web/META-INF/context.xml" token="@SQLSERVER@" value="${deploy.sql.server}"/>
+		<replace file="${web.dir.source.root}/build/web/META-INF/context.xml" token="@SQLUSER@" value="${deploy.sql.user}"/>
+		<replace file="${web.dir.source.root}/build/web/META-INF/context.xml" token="@SQLPASSWORD@" value="${deploy.sql.password}"/>
+		<replace file="${web.dir.source.root}/build/web/META-INF/context.xml" token="@SQLJAVACONNECTIONSTRING@" value="${deploy.sql.javaconnectionstring}"/>
+
+		<replace file="${web.dir.source.root}/build/web/WEB-INF/classes/log4j.properties" token="@LOGGINGLEVEL@" value="${deploy.logginglevel}"/>
+		<replace file="${web.dir.source.root}/build/web/WEB-INF/classes/log4j.properties" token="@DMSHOME@" value="${deploy.dir.target.root}"/>
+	</target>
+
+	<target name="deploy-appserver-jsp" depends="" description="Deploy jsp files">
+		<copy todir="${web.dir.source.root}/build/web/WEB-INF/jsp" preservelastmodified="true" verbose="true">
+			<fileset dir="${deploy.dir.source.shared.framework}/web/jsp">
+				<include name="**/*.*"/>
+				<exclude name="**/*.scc"/>
+			</fileset>
+			<fileset dir="${web.dir.source.root}/web/jsp">
+				<include name="**/*.*"/>
+				<exclude name="**/*.scc"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="deploy-appserver-jar" depends="" description="Create application jar file(s) and copy to deploy path(s)">
+		<jar jarfile="${web.dir.source.root}/lib/${web.jarfile}" basedir="${web.dir.source.root}/build/bin" />
+		<copy file="${web.dir.source.root}/lib/${web.jarfile}" todir="${web.dir.source.root}/build/web/WEB-INF/lib" preservelastmodified="true" verbose="true" />
+	</target>
+	
+	<target name="deploy-appserver-sharedlib" depends="" description="Deploy shared JAR files">
+		<copy todir="${web.dir.source.root}/build/web/WEB-INF/lib" flatten="true" preservelastmodified="true" verbose="true">
+			<fileset dir="${deploy.dir.source.shared.lib}">
+				<include name="**/*.jar"/>
+				<exclude name="servlet-api.jar"/>
+				<exclude name="sqljdbc4.jar"/>
+				<exclude name="tomcat*.jar"/>
+				<exclude name="**/*.scc"/>
+			</fileset>
+			<fileset dir="${deploy.dir.source.shared.framework}/lib">
+				<include name="**/TBSFrameworkTrading.jar"/>
+				<exclude name="**/*.scc"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="deploy-appserver-compilejsp" unless="isLocalDeploy" >
+		<ant dir="." antfile="${deploy.dir.source.shared.framework}/build-jsp.xml" target="deploy-appserver-compilejsp-all" >
+			<property name="tomcat.home" value="${web.dir.source.tomcat.root}" />
+			<property name="webapp.path" value="${web.dir.source.root}/build/web" />
+		</ant>
+	</target>	
+
+	<target name="deploy-appserver-copyfiles" depends="" description="Copy all files to App Server">
+		<copy todir="${web.dir.target.tomcat.app1}" preservelastmodified="true" verbose="true">
+			<fileset dir="${web.dir.source.root}/build/web">
+				<include name="**/*.*"/>
+			  	<exclude name="**/src/*"/>
+			</fileset>
+		</copy>
+		<copy todir="${web.dir.target.tomcat.app2}" preservelastmodified="true" verbose="true">
+			<fileset dir="${web.dir.source.root}/build/web">
+				<include name="**/*.*"/>
+			  	<exclude name="**/src/*"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="deploy-webserver-1" depends="" description="Deploy static files to WebServer.1 Server">
+	  	<mkdir dir="${web.dir.target.webserver.1}/${web.url}"/>
+		<copy todir="${web.dir.target.webserver.1}/${web.url}" preservelastmodified="true" verbose="true">
+			<fileset dir="${deploy.dir.source.shared.framework}/web">
+			  	<exclude name="**/jsp/*"/>
+			  	<exclude name="**/jsp/template/*"/>
+			</fileset>
+			<fileset dir="${web.dir.source.root}/web"> 
+			  	<exclude name="**/jsp/*"/>
+			  	<exclude name="**/jsp/template/*"/>
+			</fileset>
+		</copy>
+		<copy file="${web.dir.source.root}/conf/index.html" tofile="${web.dir.target.webserver.1}/index.html" preservelastmodified="true" verbose="true" />
+		<replace file="${web.dir.target.webserver.1}/index.html" token="@URLBASEADDR@" value="${deploy.url.baseaddr}"/>
+	</target>
+	
+	<target name="deploy-webserver-2" depends="" if="env.DMS_DEPLOY_TO_WEBSERVER.2" description="Deploy static files to WebServer.2 Server">
+	  	<mkdir dir="${web.dir.target.webserver.2}/${web.url}"/>
+		<copy todir="${web.dir.target.webserver.2}/${web.url}" preservelastmodified="true" verbose="true">
+			<fileset dir="${deploy.dir.source.shared.framework}/web">
+			  	<exclude name="**/jsp/*"/>
+			  	<exclude name="**/jsp/template/*"/>
+			</fileset>
+			<fileset dir="${web.dir.source.root}/web"> 
+			  	<exclude name="**/jsp/*"/>
+			  	<exclude name="**/jsp/template/*"/>
+			</fileset>
+		</copy>
+		<copy file="${web.dir.source.root}/conf/index.html" tofile="${web.dir.target.webserver.2}/index.html" preservelastmodified="true" verbose="true" />
+		<replace file="${web.dir.target.webserver.2}/index.html" token="@URLBASEADDR@" value="${deploy.url.baseaddr}"/>
+	</target>
+
+	<target name="deploy-webserver-3" depends="" if="env.DMS_DEPLOY_TO_WEBSERVER.3" description="Deploy static files to WebServer.3 Server">
+	  	<mkdir dir="${web.dir.target.webserver.3}/${web.url}"/>
+		<copy todir="${web.dir.target.webserver.3}/${web.url}" preservelastmodified="true" verbose="true">
+			<fileset dir="${deploy.dir.source.shared.framework}/web">
+			  	<exclude name="**/jsp/*"/>
+			  	<exclude name="**/jsp/template/*"/>
+			</fileset>
+			<fileset dir="${web.dir.source.root}/web"> 
+			  	<exclude name="**/jsp/*"/>
+			  	<exclude name="**/jsp/template/*"/>
+			</fileset>
+		</copy>
+		<copy file="${web.dir.source.root}/conf/index.html" tofile="${web.dir.target.webserver.3}/index.html" preservelastmodified="true" verbose="true" />
+		<replace file="${web.dir.target.webserver.3}/index.html" token="@URLBASEADDR@" value="secure.${deploy.url.baseaddr}"/>
+	</target>
+	
+	<target name="deploy-webserver-4" depends="" if="env.DMS_DEPLOY_TO_WEBSERVER.4" description="Deploy static files to WebServer.4 Server">
+	  	<mkdir dir="${web.dir.target.webserver.4}/${web.url}"/>
+		<copy todir="${web.dir.target.webserver.4}/${web.url}" preservelastmodified="true" verbose="true">
+			<fileset dir="${deploy.dir.source.shared.framework}/web">
+			  	<exclude name="**/jsp/*"/>
+			  	<exclude name="**/jsp/template/*"/>
+			</fileset>
+			<fileset dir="${web.dir.source.root}/web"> 
+			  	<exclude name="**/jsp/*"/>
+			  	<exclude name="**/jsp/template/*"/>
+			</fileset>
+		</copy>
+		<copy file="${web.dir.source.root}/conf/index.html" tofile="${web.dir.target.webserver.4}/index.html" preservelastmodified="true" verbose="true" />
+		<replace file="${web.dir.target.webserver.4}/index.html" token="@URLBASEADDR@" value="secure.${deploy.url.baseaddr}"/>
+	</target>	
+
+	<target name="deploy" description="Deploy application"
+		depends="
+			init,
+			deploy-framework,
+			deploy-appserver-compile,
+			deploy-appserver-dirs,
+			deploy-appserver-config,
+			deploy-appserver-jsp,
+			deploy-appserver-jar,
+			deploy-appserver-sharedlib,
+			deploy-appserver-compilejsp,
+			deploy-appserver-copyfiles,
+			deploy-webserver-1,
+			deploy-webserver-2,
+			deploy-webserver-3,
+			deploy-webserver-4"	> 
+	</target>
+
+</project>

@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<project name="TBSFramework" basedir="." default="init">
+
+	<!-- 
+	 * =================================================================================================
+	 * Modified:  10 Feb 2012 VC #1294: Java log files being deleted, missing error log details 
+	 *            29 Mar 2012 NM #1042: added logging for deployment
+	 * ================================================================================================= 
+    -->
+
+	<!-- Local Properties for this build file -->
+	<property name="framework.dir.source.root" value="${basedir}"/>
+	<property name="framework.dir.target.root" value="${deploy.dir.target.root}/application/TBSFramework"/>
+	<property name="framework.jarfile" value="TBSFramework.jar"/>
+	<property name="framework.projectname" value="TBSFramework"/>
+	
+	<path id="master-classpath">
+		<fileset dir="${deploy.dir.source.shared.lib}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="init-framework" depends="" description="Init">
+		<record name="${deploy.log}" loglevel="info" append="true"/>
+		
+		<echo message=""/>
+		<echo message="-------------------------------------------------------------------------"/>
+		<echo message="TBSFramework build file"/>
+		<echo message="-------------------------------------------------------------------------"/>
+		<echo message="basedir                             = ${basedir}"/>
+		<echo message="deploy.env.to                       = ${deploy.env.to}"/>
+		<echo message="isLocalDeploy                       = ${isLocalDeploy}"/>
+		<echo message="deploy.logginglevel                 = ${deploy.logginglevel}"/>
+		<echo message="deploy.sql.server                   = ${deploy.sql.server}"/>
+		<echo message="deploy.sql.user                     = ${deploy.sql.user}"/>
+		<echo message="deploy.sql.password                 = ${deploy.sql.password}"/>
+		<echo message="deploy.dms.home.log                 = ${deploy.dms.home.log}"/>
+		<echo message="deploy.sql.javaconnectionstring     = ${deploy.sql.javaconnectionstring}"/>
+		<echo message="deploy.dir.source.shared.lib        = ${deploy.dir.source.shared.lib}"/>
+		<echo message="deploy.dir.source.shared.bin        = ${deploy.dir.source.shared.bin}"/>
+		<echo message="deploy.dir.source.shared.framework  = ${deploy.dir.source.shared.framework}"/>
+		<echo message="deploy.dir.target.root              = ${deploy.dir.target.root}"/>
+		<echo message="deploy.log                          = ${deploy.log}"/>
+		<echo message="-------------------------------------------------------------------------"/>
+		<echo message="framework.dir.source.root           = ${framework.dir.source.root}"/>
+		<echo message="framework.dir.target.root           = ${framework.dir.target.root}"/>
+		<echo message="framework.jarfile                   = ${framework.jarfile}"/>
+		<echo message="-------------------------------------------------------------------------"/>
+		<echo message=""/>
+	</target>
+	
+	<target name="clean-framework" depends="" description="Clean output directories">
+		<delete verbose="true" failonerror="false" includeEmptyDirs="true">
+			<fileset dir="${framework.dir.source.root}bin/classes" />
+			<fileset dir="${framework.dir.target.root}">
+				<include name="**/*"/>
+				<exclude name="**/*.dll"/>
+				<exclude name="**/*.log"/>
+			</fileset>
+			<fileset dir="${deploy.dir.target.root}/application/lib" />
+		</delete>
+		<delete file="${framework.dir.source.root}/lib/${framework.jarfile}" />
+	</target>
+	
+	<target name="deploy-framework-compile" description="Compile main source tree java files">
+		<mkdir dir="${framework.dir.source.root}/bin/classes"/>
+		<javac destdir="${framework.dir.source.root}/bin/classes" debug="true" deprecation="false" optimize="false" failonerror="true">
+			<src path="${framework.dir.source.root}/src"/>
+			<classpath refid="master-classpath"/>
+		</javac>
+	</target>
+
+	<target name="deploy-framework-dirs" depends="" description="Create required deployment directories">
+		<mkdir dir="${framework.dir.source.root}/lib"/>
+		<mkdir dir="${framework.dir.target.root}/conf"/>
+		<mkdir dir="${framework.dir.target.root}/logs"/>
+	</target>
+		
+	<target name="deploy-framework-config" depends="" description="Deploy configuration files and update placeholders">
+		<delete file="${framework.dir.target.root}/conf/config.properties"/>
+		<delete file="${framework.dir.target.root}/conf/log4j.properties"/>
+
+		<copy file="${framework.dir.source.root}/conf/config.properties" todir="${framework.dir.target.root}/conf" preservelastmodified="true" verbose="true" />
+		<copy file="${framework.dir.source.root}/conf/log4j.properties" todir="${framework.dir.target.root}/conf" preservelastmodified="true" verbose="true" />
+		
+		<replace file="${framework.dir.target.root}/conf/config.properties" token="@SQLSERVER@" value="${deploy.sql.server}"/>
+		<replace file="${framework.dir.target.root}/conf/config.properties" token="@SQLUSER@" value="${deploy.sql.user}"/>
+		<replace file="${framework.dir.target.root}/conf/config.properties" token="@SQLPASSWORD@" value="${deploy.sql.password}"/>
+		<replace file="${framework.dir.target.root}/conf/config.properties" token="@SQLJAVACONNECTIONSTRING@" value="${deploy.sql.javaconnectionstring}"/>
+
+		<replace file="${framework.dir.target.root}/conf/log4j.properties" token="@LOGGINGLEVEL@" value="${deploy.logginglevel}"/>
+		<replace file="${framework.dir.target.root}/conf/log4j.properties" token="@DMSHOME@" value="${deploy.dir.target.root}"/>
+	</target>
+	
+	<target name="deploy-framework-scripts" depends="" description="Copy scripts to deploy path">
+		<copy todir="${framework.dir.target.root}/scripts" preservelastmodified="true" verbose="true">
+			<fileset dir="${framework.dir.source.root}/scripts" />
+		</copy>
+	</target>
+	
+	<target name="deploy-framework-jar" depends="" description="Create application jar file(s) and copy to deploy path(s)">
+		<jar jarfile="${framework.dir.source.root}/lib/${framework.jarfile}" basedir="${framework.dir.source.root}/bin/classes" />
+		<copy file="${framework.dir.source.root}/lib/${framework.jarfile}" todir="${framework.dir.target.root}/lib" preservelastmodified="true" verbose="true" />
+	</target>
+	
+	<target name="deploy-framework-sharedlib" depends="" description="Deploy third party JAR files">
+		<copy todir="${deploy.dir.target.root}/application/lib" flatten="true" preservelastmodified="true" verbose="true">
+			<fileset dir="${deploy.dir.source.shared.lib}">
+				<include name="**/*.*"/>
+				<exclude name="**/servlet-api.jar"/>
+				<exclude name="**/*.scc"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clean-framework-all" description="Clean TBSFramework and then all other projects dependent upon the framework"
+		depends="
+			init-framework,
+			clean-framework"	> 
+			
+		<!-- 
+			<ant dir="../TBSAlertsService" target="clean" />
+			<ant dir="../TBSMaintenanceService" target="clean" />
+			<ant dir="../TBSScheduler" target="clean" />
+    	-->
+	</target>
+
+	<target name="deploy-framework-all" description="Build TBSFramework and then all other projects dependent upon the framework"
+		depends="
+			init-framework,
+			deploy-framework-compile,
+			deploy-framework-dirs,
+			deploy-framework-config,
+			deploy-framework-scripts,
+			deploy-framework-jar,
+			deploy-framework-sharedlib"	>
+		
+		<!-- 
+			<ant dir="../TBSAlertsService" target="deploy" />
+			<ant dir="../TBSMaintenanceService" target="deploy" />
+			<ant dir="../TBSScheduler" target="deploy" />
+    	-->
+    	
+	</target>
+	
+</project>

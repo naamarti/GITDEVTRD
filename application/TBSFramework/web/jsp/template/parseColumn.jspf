@@ -1,0 +1,5 @@
+<c:forTokens items="${parseColumn}" varStatus="s" var="c" delims=",">
+	<c:if test="${s.index==0}" ><c:set var="parseColumnName" value="${c}" /></c:if>
+	<c:if test="${s.index==1}" ><c:set var="parseColumnWidth" value="${c}" /></c:if>
+	<c:if test="${s.index==2}" ><c:set var="parseColumnAlign" value="${c}" /></c:if>
+</c:forTokens>

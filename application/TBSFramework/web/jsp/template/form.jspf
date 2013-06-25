@@ -1,0 +1,96 @@
+<!-- form Start -->
+<c:set var="formData" value="${model[formId]}" />
+<c:if test="${empty formMarginLeft || formMarginLeft == ''}">
+	<c:set var="formMarginLeft" value="0" />
+</c:if>
+<c:if test="${empty formMarginTop || formMarginTop == ''}">
+	<c:set var="formMarginTop" value="0" />
+</c:if>
+<div id="divForm${formId}" class="tbsStyleForm tbsStyleRounded" style="margin-left:${formMarginLeft}px; margin-top:${formMarginTop}px; width:450px; position:relative; border:1px solid; overflow:hidden;" >
+	<div id="${formId}ButtonEdit" name="${formId}ButtonEdit" style="left:0px; top:0px; margin-left:6px; margin-top:3px; position:absolute; z-index=1; cursor:pointer;" >
+		<c:if test="${formData.displayEditButton}">
+			<img src="images/edit1_24.png" width="24px" height="24px" style="border-style:none;" >
+		</c:if>
+	</div>
+	<div>
+		<c:forEach items="${formData.controlsList}" varStatus="status" var="c">
+			<c:if test="${c.controlType != 'INPUT_HIDDEN'}" >
+				<div data-controlId="${c.id}" data-controlLabel="${c.label}" data-controlRequired="${c.required}" data-controlRangeMin="${c.rangeMinimum}" data-controlRangeMax="${c.rangeMaximum}" style="margin-top:${status.first ? 12 : 3}px; margin-bottom:${status.last ? 12 : 3}px; width:590px; overflow:hidden;" >
+					<div class="tbsStyleFormHeading" style="margin-right:20px; width:180px; float:left;" >
+						<c:if test="${c.required}" ><span class="tbsStyleFormRequired">*</span></c:if>
+						${c.label}:
+					</div>
+					<c:set var="readOnlyStyle" value="${c.readOnly ? \"readonly='readonly'\" : ''}" />
+					<c:set var="readOnlyFormat" value="${c.readOnly ? 'background-color:#F8F8F8;' : ''}" />
+					<c:choose>
+						<c:when test="${c.controlType == 'INPUT_TEXT' || c.controlType == 'INPUT_PASSWORD'}">
+							<c:set var="inputTextValue" value="${c.value}" />
+							<c:choose>
+								<c:when test="${c.formatType == 'CURRENCY'}">
+									<c:set var="inputTextValue" ><fmt:formatNumber value="${c.value}" type="currency" currencyCode="USD" /></c:set>
+								</c:when>
+								<c:when test="${c.formatType == 'CURRENCY_0DIGIT_PRECISION'}">
+									<c:set var="inputTextValue" ><fmt:formatNumber value="${c.value}" type="currency" maxFractionDigits="0" currencyCode="USD"/></c:set>
+								</c:when>
+								<c:when test="${c.formatType == 'DATE'}">
+									<c:set var="inputTextValue" ><fmt:formatDate type="date" pattern="${fn:length(c.formatPattern) > 0 ? c.formatPattern : 'MM/dd/yyyy'}" value="${c.value}" /></c:set>
+								</c:when>
+								<c:when test="${c.formatType == 'PERCENTAGE'}">
+									<c:set var="inputTextValue" ><fmt:formatNumber value="${c.value}" type="percent" minFractionDigits="2" currencyCode="USD"/></c:set>
+								</c:when>
+								<c:when test="${c.formatType == 'DECIMAL_0DIGIT_PRECISION'}">
+									<c:set var="inputTextValue" ><fmt:formatNumber value="${c.value}" type="number" maxFractionDigits="0"/></c:set>
+								</c:when>
+								<c:when test="${c.formatType == 'DECIMAL_2DIGIT_PRECISION'}">
+									<c:set var="inputTextValue" ><fmt:formatNumber value="${c.value}" type="number" minFractionDigits="2" maxFractionDigits="2"/></c:set>
+								</c:when>
+								<c:when test="${c.formatType == 'DECIMAL_4DIGIT_PRECISION'}">
+									<c:set var="inputTextValue" ><fmt:formatNumber value="${c.value}" type="number" minFractionDigits="4" maxFractionDigits="4"/></c:set>
+								</c:when>
+							</c:choose>
+							<input id="${c.id}" name="${c.id}" type="${c.controlType == 'INPUT_TEXT' ? 'text' : 'password'}" value="${inputTextValue}" <c:if test="${c.size > 0}" >maxlength="${c.size}"</c:if> title="${c.toolTip}" class="tbsStyleFormInput" ${readOnlyStyle} style="width:200px; float:left;${readOnlyFormat}" />
+						</c:when>
+						<c:when test="${c.controlType == 'INPUT_CHECKBOX'}">
+							<input id="${c.id}" name="${c.id}" type="checkbox" ${c.value ? 'checked' : ''} title="${c.toolTip}" class="tbsStyleFormInput" ${readOnlyStyle} style="float:left;${readOnlyFormat}" />
+						</c:when>
+						<c:when test="${c.controlType == 'INPUT_SELECT' && !c.readOnly}">
+							<select id="${c.id}" name="${c.id}" class="formfilter" title="${c.toolTip}" class="tbsStyleFormInput" style="width:200px; float:left;" >
+							<c:forEach items="${c.dropDownList}" varStatus="status" var="i">
+								<option value="${i.key}" ${c.value == i.key ? 'selected' : ''}>${i.value}</option>
+							</c:forEach>
+							</select>
+						</c:when>
+						<c:when test="${c.controlType == 'INPUT_SELECT' && c.readOnly}">
+							<c:set var="inputTextValue" value="${''}" />
+							<c:forEach items="${c.dropDownList}" varStatus="status" var="i">
+								<c:if test="${c.value == i.key}" >
+									<c:set var="inputTextValue" value="${i.value}" />
+								</c:if>
+							</c:forEach>
+							<input type="text" value="${inputTextValue}" title="${c.toolTip}" class="tbsStyleFormInput" ${readOnlyStyle} style="width:200px; float:left;${readOnlyFormat}" />
+							<input id="${c.id}" name="${c.id}" type="hidden" value="${c.value}" />
+						</c:when>
+						<c:otherwise>
+							&nbsp;
+						</c:otherwise>
+					</c:choose>
+					<div id="controlImageError${c.id}" style="margin-left:6px; margin-top:3px; float:left; display:${c.validationState == 'INVALID' ? 'block' : 'none'};" >
+						<img src="images/delete3_16.png" width="12px" height="12px" style="border-style:none;" >
+					</div>
+					<div id="controlImageSuccess${c.id}" style="margin-left:6px; margin-top:3px; float:left; display:${c.validationState == 'VALID' ? 'block' : 'none'};" >
+						<img src="images/check3_16.png" width="12px" height="12px" style="border-style:none;" >
+					</div>
+				</div>
+			</c:if>	
+		</c:forEach>
+	</div>
+</div>
+<c:forEach items="${formData.controlsList}" varStatus="status" var="c">
+	<c:if test="${c.controlType == 'INPUT_HIDDEN'}" >
+		<input id="${c.id}" name="${c.id}" type="hidden" value="${c.value}" />
+	</c:if>
+</c:forEach>
+<c:set var="formId" value="" />
+<c:set var="formMarginLeft" value="" />
+<c:set var="formMarginTop" value="" />
+<!-- form End -->

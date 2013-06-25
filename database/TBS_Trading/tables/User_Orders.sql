@@ -1,0 +1,35 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[User_Orders](
+	[Order_PK] [decimal](18, 0) IDENTITY(1,1) NOT NULL,
+	[User_FK] [decimal](18, 0) NOT NULL,
+	[EntryDate] [datetime] NOT NULL,
+	[Security_FK] [decimal](18, 0) NOT NULL,
+	[Type_FK] [decimal](18, 0) NOT NULL,
+	[Quantity] [decimal](18, 2) NULL,
+	[Price] [decimal](18, 4) NOT NULL,
+	[Status_FK] [decimal](18, 0) NOT NULL,
+	[Original_Quantity] [decimal](18, 2) NOT NULL,
+ CONSTRAINT [PK_User_Orders] PRIMARY KEY CLUSTERED 
+(
+	[Order_PK] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+CREATE NONCLUSTERED INDEX [IX_Order_Date] ON [dbo].[User_Orders]
+(
+	[User_FK] ASC,
+	[EntryDate] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[User_Orders]  WITH CHECK ADD  CONSTRAINT [FK_User_Orders_Users] FOREIGN KEY([User_FK])
+REFERENCES [dbo].[AppUser] ([User_PK])
+GO
+ALTER TABLE [dbo].[User_Orders] CHECK CONSTRAINT [FK_User_Orders_Users]
+GO

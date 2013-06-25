@@ -1,0 +1,5 @@
+<!-- textBoxSearchAccounts Start -->
+<select id="textBoxSearchAccounts" name="textBoxSearchAccounts" class="tbsStylePageFilterInput" style="width:190px;" onchange="">
+	<option value="0" ${model.accountId == 0 ? 'selected' : ''}>Search for Account ID...</option>
+</select>
+<!-- textBoxSearchAccounts End -->

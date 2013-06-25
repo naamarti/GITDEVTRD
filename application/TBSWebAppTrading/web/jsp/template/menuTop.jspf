@@ -1,0 +1,29 @@
+<!-- menuTop Start -->
+<div class="tbs-ui-menu-top" style="margin-left:3px; width:${layoutMenuTopWidth -5}px; height:26px;" >
+	<c:if test="${empty model.loginStep || model.loginStep == 'welcome' || (fn:length(model.loginStep) == 0)}" >
+		<table cellspacing="0" cellpadding="0" border="0" width="${layoutMenuTopWidth}px" >
+			<colgroup>
+				<col style="width:10px;">
+				<col style="width:100px;">
+				<col style="width:100px;">
+				<col style="width:${layoutMenuTopWidth - 210}px;">
+			</colgroup>
+			<tr>
+				<td>&nbsp;</td>
+				<td class="tbs-ui-menu-top-item" align="center" valign="MIDDLE" height="24px;" style="border-color:black #808080 black #808080;" onClick="jScript.menu.navigateToURL('accountHome.htm')" >
+					Home
+				</td>
+				<td class="tbs-ui-menu-top-item" align="center" valign="MIDDLE" height="24px;" style="border-color:black #808080 black #808080;" onClick="jScript.menu.navigateToURL('siteMap.htm')" >
+					Site Map
+				</td>
+				<td class="tbs-ui-menu-top-logout" style="text-align:right;" onClick="javascript:jScript.menu.openURL('<c:url value="logout.htm" />', '0')" >
+					<c:if test="${model.user.userId > 0 && fn:length(model.user.sessionKey) > 0}" >
+						Logout
+						&nbsp;&nbsp;&nbsp;&nbsp;
+					</c:if>
+				</td>
+			</tr>
+		</table>
+	</c:if>
+</div>
+<!-- menuTop End -->

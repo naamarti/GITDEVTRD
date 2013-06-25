@@ -1,0 +1,24 @@
+<!-- pageHeaderSettings Start -->
+<title>${model.screenName}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+
+<link rel="stylesheet" href="css/standard_v0005.css" type="text/css">
+<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
+<script src="js/jScript_v0001.js" type="text/javascript"></script>
+<script src="js/common_v0005.js" type="text/javascript"></script>
+<script src="js/ajax_v0001.js" type="text/javascript"></script>
+<script src="js/ui_v0002.js" type="text/javascript"></script>
+<script src="js/popUp_v0006.js" type="text/javascript"></script>
+<script src="js/menu_v0003.js" type="text/javascript"></script>
+<script src="js/tabs_v0001.js" type="text/javascript"></script>
+<script src="js/calendarDateInput_v0002.js" type="text/javascript">
+	/***********************************************
+	 * Jason's Date Input Calendar- By Jason Moon http://calendar.moonscript.com/dateinput.cfm
+	 * Script featured on and available at http://www.dynamicdrive.com
+	 * Keep this notice intact for use.
+	 ***********************************************/
+</script>
+<!-- pageHeaderSettings End -->

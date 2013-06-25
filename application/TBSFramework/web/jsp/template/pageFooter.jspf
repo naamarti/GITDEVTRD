@@ -1,0 +1,11 @@
+<!-- pageFooter Start -->
+<div id="divPageFooter" name="divPageFooter" style="margin-top:12px; margin-bottom:150px; width:${layoutPageFooterWidth}px; overflow:hidden; ">
+	<div style="margin-left:3px; margin-top:3px; width:130px; height:60px; float:left; ">
+		<img src="images/GDTS.gif" style="width:100px; height:60px; border-width:0px; display:block;" />
+	</div>
+	<div class="tbsStylePageFooter" style="width:500px; float:left;">
+		Copyright &copy; 2007-2013 Total Bank Solutions LLC. All rights reserved.
+	</div>
+</div>
+<div id="divDeveloperNotes" style="position:absolute; z-index:100; left:980px; top:40px; width:1000px;" ></div>
+<!-- PageFooter End -->

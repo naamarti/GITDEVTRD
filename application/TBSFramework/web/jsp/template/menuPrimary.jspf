@@ -1,0 +1,54 @@
+<!-- menuPrimary Start -->
+<c:set var="displayWidth" value="120" />
+<c:set var="displayRowHeight" value="18" />
+<c:set var="navigationGroupId" value="0" />
+<c:set var="menuDisabled" value="" />
+<c:set var="menuPrimaryMarginHeights" value="0" />
+<c:set var="menuPrimaryBorderHeights" value="${1 + 1}" />
+<c:set var="menuPrimaryHeight" value="${pageMenuLeftHeight - menuPrimaryMarginHeights - menuPrimaryBorderHeights}" />
+<c:set var="divMenuLinkOpen" value="false" />
+<c:if test="${fn:length(model.menuPrimary.rowList) > 0 && not isErrorPage}">
+	<div id="divMenuPrimary" name="divMenuPrimary" style="width:${layoutPrimaryMenuWidth}px; overflow:hidden" >
+		<div class="tbsStyleMenuPrimary" style="margin-left:3px; margin-top:0px; width:120px;" >
+			<c:forEach items="${model.menuPrimary.rowList}" varStatus="status" var="menu">
+				<c:if test="${empty menuGroupId || not (menuGroupId == menu.columnMap['groupId'].value) }">
+					<c:if test="${divMenuLinkOpen}" >
+						</div>
+					</c:if>
+					<c:set var="menuGroupId" value="${menu.columnMap['groupId'].value}" />
+					<c:set var="menuGroupName" value="${menu.columnMap['groupName'].value}" />
+					<table cellspacing="0" cellpadding="0" border="0" width="${displayWidth}">
+						<tr>
+							<td class="tbsStyleMenuPrimaryLevel1" align="LEFT" valign="MIDDLE" height="${displayRowHeight}" onClick="jScript.menu.expandGroup('${menuGroupId}')" >
+								${menuGroupName}
+							</td>
+						</tr>
+					</table>
+					<c:set var="divMenuLinkOpen" value="true" />
+					<div id="divMenuPrimaryGroup${menuGroupId}" style="display:none;">
+				</c:if>
+				<c:set var="menuLinkId" value="${menu.columnMap['navigationId'].value}" />
+				<c:set var="menuLinkName" value="${menu.columnMap['navigationName'].value}" />
+				<c:set var="menuLinkURL" value="${menu.columnMap['navigationURL'].value}" />
+				<c:set var="menuSelected" value="${menuLinkId == model.user.navigationId ? 'Selected' : ''}" />
+				<c:if test="${menuLinkId == model.user.navigationId}">
+					<c:set var="navigationGroupId" value="${menuGroupId}" />
+				</c:if>
+				<table cellspacing="0" cellpadding="0" border="0" width="${displayWidth}">
+					<tr>
+						<td id="menuPrimary_${menuLinkName}" class="tbsStyleMenuPrimaryLevel2${menuDisabled}${menuSelected}" align="LEFT" valign="MIDDLE" height="${displayRowHeight}" onClick="jScript.menu.openURL('${menuLinkURL}','${menuLinkId}')" onMouseOver="jScript.menu.highlightMenu(this);" onMouseOut="jScript.menu.unHighlightMenu(this);">
+							${menuLinkName}
+						</td>
+					</tr>
+				</table>
+			</c:forEach>
+			<c:if test="${divMenuLinkOpen}" >
+				</div>
+			</c:if>
+		</div>
+	</div>
+	<script type="text/javascript">
+		jScript.menu.expandGroup('${navigationGroupId}');
+	</script>
+</c:if>
+<!-- menuPrimary End -->

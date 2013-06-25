@@ -1,0 +1,34 @@
+<!-- menuSecondary Start -->
+<div id="divMenuSecondary" style="width:${layoutSecondaryMenuWidth}px; height:62px; overflow:hidden;" >
+	<div style="width:100%; height:38px; overflow:hidden;" >
+		<div id="divMenuSecondaryLevel1" class="tbsStyleMenuSecondaryLevel1" style="margin-top:8px; width:${layoutSecondaryMenuWidth-2}px; height:28px;" >
+			<div class="tbsStyleMenuSecondaryLevel1Unselected" style="width:24px; border-left:0px; cursor:auto;" >
+				&nbsp;
+			</div>
+			<c:if test="${not isErrorPage}" >
+				<c:forEach items="${model.menuSecondaryLevel1List}" varStatus="status" var="tabMenu">
+					<div class="tbsStyleMenuSecondaryLevel1${tabMenu.selected ? 'Selected' : 'Unselected'}" onClick="jScript.menu.openURL('<c:url value="${tabMenu.url}"/>', '0')" onMouseOver="jScript.menu.highlightMenu(this);" onMouseOut="jScript.menu.unHighlightMenu(this);">
+						<div style="margin-left:3px; margin-top:6px;" >${tabMenu.name}</div>
+					</div>
+				</c:forEach>
+			</c:if>
+			<div class="tbsStyleMenuSecondaryLevel1Unselected" style="width:3px; border-right:0px; cursor:auto;" >
+				&nbsp;
+			</div>
+		</div>
+	</div>
+	<div id="divMenuSecondaryLevel2" class="tbsStyleMenuSecondaryLevel2" style="width:${layoutSecondaryMenuWidth-2}px; height:36px; overflow:hidden;" >
+		<div style="margin-top:3px">
+			&nbsp;&nbsp;&nbsp;
+			<c:forEach items="${model.menuSecondaryLevel2List}" varStatus="status" var="tabLink">
+				<c:if test="${status.count > 1}">
+					&nbsp;&nbsp;|&nbsp;&nbsp;
+				</c:if>
+				<span class="tbsStyleMenuSecondaryLevel2${tabLink.selected ? 'Selected' : 'Unselected'}" style="text-align:center;" onClick="jScript.menu.openURL('<c:url value="${tabLink.url}"/>', '0')" onMouseOver="jScript.menu.highlightMenu(this);" onMouseOut="jScript.menu.unHighlightMenu(this);">
+					${tabLink.name}
+				</span>
+			</c:forEach>
+		</div>
+	</div>
+</div>
+<!-- menuSecondary End -->

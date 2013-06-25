@@ -1,0 +1,33 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[AppSession](
+	[Session_PK] [decimal](18, 0) IDENTITY(1,1) NOT NULL,
+	[User_FK] [decimal](18, 0) NOT NULL,
+	[SessionKey] [char](40) NOT NULL,
+	[LoginStatus] [int] NOT NULL,
+	[LoginDateTime] [datetime] NOT NULL,
+	[LastAccessDateTime] [datetime] NOT NULL,
+	[Navigation_FK] [decimal](18, 0) NOT NULL,
+	[IsDeleted] [bit] NOT NULL,
+	[WorkingDate] [datetime] NULL,
+ CONSTRAINT [PK_AppSession] PRIMARY KEY NONCLUSTERED 
+(
+	[Session_PK] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
+ CONSTRAINT [UK_AppSession] UNIQUE NONCLUSTERED 
+(
+	[User_FK] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+ALTER TABLE [dbo].[AppSession]  WITH CHECK ADD  CONSTRAINT [FK_AppSession_AppUser] FOREIGN KEY([User_FK])
+REFERENCES [dbo].[AppUser] ([User_PK])
+GO
+ALTER TABLE [dbo].[AppSession] CHECK CONSTRAINT [FK_AppSession_AppUser]
+GO

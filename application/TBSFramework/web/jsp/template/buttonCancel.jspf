@@ -1,0 +1,4 @@
+<c:set var="buttonId" value="buttonCancel" />
+<c:set var="buttonImage" value="delete3_16.png" />
+<c:set var="buttonText" value="Cancel" />
+<%@ include file="button.jspf" %>

@@ -1,0 +1,186 @@
+<!-- table Start -->
+<c:set var="tableData" value="${model[tableId]}" />
+<c:set var="tableHeadingRowHeight" value="24" />
+<c:set var="tableRowHeight" value="24" />
+<c:set var="tableRowNumberWidth" value="24" />
+<c:set var="tableColSeparatorWidth" value="4" />
+<c:choose>
+	<c:when test="${tableData.scrollTypeX == 'ALWAYS_HIDDEN'}"><c:set var="tableScrollX" value="hidden" /></c:when>
+	<c:when test="${tableData.scrollTypeX == 'ALWAYS_VISIBLE'}"><c:set var="tableScrollX" value="scroll" /></c:when>
+	<c:otherwise>
+		<c:set var="tableScrollX" value="${tableData.columnsWidth > tableData.containerWidth  ? 'scroll' : 'hidden'}" />
+	</c:otherwise>
+</c:choose>
+<c:choose>
+	<c:when test="${tableData.scrollTypeY == 'ALWAYS_HIDDEN'}"><c:set var="tableScrollY" value="hidden" /></c:when>
+	<c:when test="${tableData.scrollTypeY == 'ALWAYS_VISIBLE'}"><c:set var="tableScrollY" value="scroll" /></c:when>
+	<c:otherwise>
+		<c:set var="tableScrollY" value="${tableData.rowCount > tableData.displayRowCount  ? 'scroll' : 'hidden'}" />
+	</c:otherwise>
+</c:choose>
+<c:set var="tableScrollBarXHeight" value="${tableScrollX == 'scroll' ? '16' : '0'}" />
+<c:set var="tableScrollBarYWidth" value="${tableScrollY == 'scroll'  ? '16' : '0'}" />
+<c:set var="tableHeight" value="${(tableRowHeight * tableData.displayRowCount)}" />
+<c:set var="tableContainerHeight" value="${tableHeight + tableHeadingRowHeight}" />
+<c:if test="${empty tableMarginLeft || tableMarginLeft == ''}">
+	<c:set var="tableMarginLeft" value="0" />
+</c:if>
+<c:if test="${empty tableMarginTop || tableMarginTop == ''}">
+	<c:set var="tableMarginTop" value="0" />
+</c:if>
+<div id="divTable${tableId}" name="divTable${tableId}" class="tbsStyleTable2Border" style="margin-left:${tableMarginLeft}px; margin-top:${tableMarginTop}px; position:relative; top:0px; left:0px; height:${tableContainerHeight}px; width:${tableData.containerWidth}px; overflow:hidden;">
+	<div id="divTableHeader${tableId}" name="divTableHeader${tableId}" style="position:absolute; top:0px; height:${tableHeadingRowHeight}px; width:${tableRowNumberWidth}px; overflow:hidden;">
+		<table id="tableHeader${tableId}" name="tableHeader${tableId}" style="height:${tableHeadingRowHeight}px; width:${tableRowNumberWidth}px; table-layout:fixed;" border="0" cellpadding="0" cellspacing="0">
+			<colgroup>
+				<col style="width:${tableRowNumberWidth}px;">
+			</colgroup>
+			<tbody>
+				<tr style="height:${tableHeadingRowHeight}px;">
+					<td class="tbsStyleTable2Heading">&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<c:set var="tableColumnCount" value="0"/>
+	<c:forEach items="${tableData.columnList}" varStatus="status" var="c">
+		<c:set var="tableColumnCount" value="${tableColumnCount + 1}"/>
+	</c:forEach>
+	<c:set var="tableSeparatorCount" value="${tableColumnCount - 1}"/>
+
+
+	<c:set var="tableCellFirstColumn" value="yes" />
+	<div id="divTableHeadingCols${tableId}" name="divTableHeadingCols${tableId}" style="position:absolute; top:0px; left:${tableRowNumberWidth}px; width:${tableData.containerWidth - tableRowNumberWidth+ (tableSeparatorCount * tableColSeparatorWidth)}px; overflow:hidden;">
+		<table id="tableHeadingCols${tableId}" style="width:${tableData.columnsWidth - tableRowNumberWidth + tableScrollBarYWidth + (tableSeparatorCount * tableColSeparatorWidth)}px; table-layout:fixed;" border="0" cellpadding="0" cellspacing="0">
+			<colgroup>
+				<c:forEach items="${tableData.columnList}" varStatus="status" var="c">
+					<c:choose>
+						<c:when test="${tableCellFirstColumn == 'yes'}">
+							<c:set var="tableCellFirstColumn" value="no" />
+						</c:when>	
+						<c:otherwise>
+							<col style="width:${tableColSeparatorWidth}px;">
+						</c:otherwise>
+					</c:choose>
+					<c:set var="headingWidth" value="${status.last ? (c.width + tableScrollBarYWidth) : c.width}" />
+					<col style="width:${headingWidth}px;">
+				</c:forEach>
+			</colgroup>
+			<tbody>
+				<tr style="height:${tableHeadingRowHeight}px;">
+					<c:set var="tableCellFirstColumn" value="yes" />
+					<c:forEach items="${tableData.columnList}" varStatus="status" var="c">
+						<c:choose>
+							<c:when test="${tableCellFirstColumn == 'yes'}">
+								<c:set var="tableCellFirstColumn" value="no" />
+							</c:when>	
+							<c:otherwise>
+								<td></td>
+							</c:otherwise>
+						</c:choose>
+						<td class="tbsStyleTable2Heading" style="text-align:left">
+							${c.label}
+						</td>
+					</c:forEach>
+				</tr>
+			</tbody>
+		</table>
+	</div> <!-- divTableHeadingCols -->
+	
+    <c:set var="tableCellFirstColumn" value="yes" />
+	<div id="divTableDataCols${tableId}" name="divTableDataCols${tableId}" style="position:absolute; top:${tableHeadingRowHeight}px; left:${tableRowNumberWidth}px; height:${tableHeight}px; width:${tableData.containerWidth - tableRowNumberWidth + (tableSeparatorCount * tableColSeparatorWidth)}px; overflow-x:${tableScrollX}; overflow-y:${tableScrollY};" 
+			onScroll="jScript.common.syncXYScroll('divTableDataCols${tableId}', 'divTableHeadingCols${tableId}', 'divTableFrozenCols${tableId}');">
+		<table id="tableDataCols${tableId}" name="tableDataCols${tableId}" style="width:${tableData.columnsWidth - tableRowNumberWidth  + (tableSeparatorCount * tableColSeparatorWidth)}px; table-layout:fixed;" border="0" cellpadding="0" cellspacing="0">
+			<colgroup>
+				<c:forEach items="${tableData.columnList}" varStatus="status" var="c">
+					<c:choose>
+						<c:when test="${tableCellFirstColumn == 'yes'}">
+							<c:set var="tableCellFirstColumn" value="no" />
+						</c:when>	
+						<c:otherwise>
+							<col style="width:${tableColSeparatorWidth}px;">
+						</c:otherwise>
+					</c:choose>
+					<col style="width:${c.width}px;">
+				</c:forEach>
+			</colgroup>
+			<tbody>
+			<c:set var="tableCellFirstColumn" value="yes" />
+			<c:forEach items="${tableData.rowList}" varStatus="status" var="row">
+
+					<tr id="tableDataRow${tableId}${status.count}" name="tableDataRow${tableId}${status.count}" class="tbsStyleTable2Row" 
+						valign="center" style="height:${tableRowHeight}px;" 
+						onClick="jScript.common.selectRow(this);" ${tableRowAttributes} >
+		
+					<c:forEach items="${tableData.columnList}" varStatus="status2" var="c">
+						<c:set var="tableCellZoomable" value="" />
+						<c:set var="tableCellLink" value="" />
+						<c:if test="${c.zoomable}"><c:set var="tableCellZoomable" value="tbs-ui-tablecell-zoomable" /></c:if>
+						<c:if test="${c.link}"><c:set var="tableCellLink" value="tbs-ui-tablecell-link" /></c:if>
+
+						<c:choose>
+							<c:when test="${tableCellFirstColumn == 'yes'}">
+								<c:set var="tableCellFirstColumn" value="no" />
+							</c:when>	
+							<c:otherwise>
+								<td class="tbsStyleTable2Separator">
+									|
+								</td>
+							</c:otherwise>
+						</c:choose>
+
+						<c:choose>
+							<c:when test="${c.link}">
+								<td class="tbsStyleTable2Data ${tableCellLink}" style="text-align:${c.align};" data-columnName="${c.columnName}" >
+							</c:when>								
+							<c:otherwise>
+								<td class="tbsStyleTable2Data ${tableCellZoomable}" style="text-align:${c.align};" data-columnName="${c.columnName}" >
+							</c:otherwise>
+						</c:choose>
+
+							<c:choose>
+								<c:when test="${c.cellType == 'IMAGE'}">
+									<img src="images/${c.image}" width="${c.imageWidth}" height="${c.imageHeight}" style="border-style:none;" alt="c.label"/>
+								</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test="${c.cellFormatType == 'CURRENCY'}">
+											<fmt:formatNumber value="${row.columnMap[c.columnName].value}" type="currency" currencyCode="USD"/>
+										</c:when>
+										<c:when test="${c.cellFormatType == 'CURRENCY_0DIGIT_PRECISION'}">
+											<fmt:formatNumber value="${row.columnMap[c.columnName].value}" type="currency" maxFractionDigits="0" currencyCode="USD"/>
+										</c:when>
+										<c:when test="${c.cellFormatType == 'PERCENTAGE'}">
+											<fmt:formatNumber value="${row.columnMap[c.columnName].value}" type="percent" minFractionDigits="2" currencyCode="USD"/>
+										</c:when>
+										<c:when test="${c.cellFormatType == 'DECIMAL_0DIGIT_PRECISION'}">
+											<fmt:formatNumber value="${row.columnMap[c.columnName].value}" type="number" maxFractionDigits="0"/>
+										</c:when>
+										<c:when test="${c.cellFormatType == 'DECIMAL_2DIGIT_PRECISION'}">
+											<fmt:formatNumber value="${row.columnMap[c.columnName].value}" type="number" minFractionDigits="2" maxFractionDigits="2"/>
+										</c:when>
+										<c:when test="${c.cellFormatType == 'DECIMAL_4DIGIT_PRECISION'}">
+											<fmt:formatNumber value="${row.columnMap[c.columnName].value}" type="number" minFractionDigits="4" maxFractionDigits="4"/>
+										</c:when>
+										<c:otherwise>
+											${row.columnMap[c.columnName].value}
+										</c:otherwise>
+									</c:choose>
+								</c:otherwise>
+							</c:choose>
+						</td>
+						
+					</c:forEach>					
+				</tr>
+			</c:forEach>
+
+			</tbody>
+		</table>
+	</div> <!-- divTableDataCols -->
+
+</div> <!-- divTable -->
+
+<c:set var="tableId" value="" />
+<c:set var="tableData" value="" />
+<c:set var="tableMarginLeft" value="" />
+<c:set var="tableMarginTop" value="" />
+<!-- table End -->

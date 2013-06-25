@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<project name="DMSJavaWebCompileJSP" basedir="." default="deploy-appserver-compilejsp-all">
+
+	<import file="${tomcat.home}/bin/catalina-tasks.xml"/>
+
+	<target name="deploy-appserver-compilejsp-clean">
+		<delete verbose="true" failonerror="false" includeEmptyDirs="true">
+			<fileset dir="${webapp.path}/WEB-INF/src" />
+			<fileset dir="${webapp.path}/WEB-INF/classes/org/apache/jsp" />
+		</delete>
+	</target>
+    
+	<target name="deploy-appserver-compilejsp-a">
+		<jasper
+			validateXml="false"
+			uriroot="${webapp.path}"
+			webXmlFragment="${webapp.path}/WEB-INF/generated_web.xml"
+			addWebXmlMappings="true" 
+			outputDir="${webapp.path}/WEB-INF/src" />
+	</target>
+
+	<target name="deploy-appserver-compilejsp-b">
+		<mkdir dir="${webapp.path}/WEB-INF/classes"/>
+		<mkdir dir="${webapp.path}/WEB-INF/lib"/>
+		<javac destdir="${webapp.path}/WEB-INF/classes"
+			optimize="off"
+			debug="on" 
+			failonerror="false"
+			srcdir="${webapp.path}/WEB-INF/src"
+			excludes="**/*.smap">
+			<classpath>
+				<pathelement location="${webapp.path}/WEB-INF/classes"/>
+				<fileset dir="${webapp.path}/WEB-INF/lib">
+					<include name="*.jar"/>
+				</fileset>
+				<pathelement location="${tomcat.home}/lib"/>
+				<fileset dir="${tomcat.home}/lib">
+					<include name="*.jar"/>
+				</fileset>
+				<fileset dir="${tomcat.home}/bin">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+			<include name="**" />
+			<exclude name="tags/**" />
+		</javac>
+	</target>
+
+	<target name="deploy-appserver-compilejsp-all" description="Compile JSPs"
+		depends="
+			deploy-appserver-compilejsp-clean,
+			deploy-appserver-compilejsp-a, 
+			deploy-appserver-compilejsp-b	" >
+	</target>
+
+</project>

@@ -1,0 +1,151 @@
+<%--
+	http://icant.co.uk/csstablegallery
+	http://photokandy.tumblr.com/post/985829453/fancy-tables-with-some-css3
+	http://tympanus.net/codrops/2010/05/03/pimp-your-tables-with-css3/
+
+	======================================
+	Required Parameters:
+	======================================
+	tableId					: unique document element id
+	tableHeadings			: list of columns, separated by pipes. "Heading Name,width,alignment"
+	tableRowCount			: total number of rows
+	
+	======================================
+	Optional Parameters:
+	======================================
+	tableContainerWidth		: Default is total width of all columns.
+	tableDisplayRowCount	: Default is 10.
+	tableScrollX			: Default is auto. (auto, hidden, scroll).
+	tableScrollY			: Default is auto. (auto, hidden, scroll).
+	tableIsShowRowNumbers	: Default is true. (true, false).
+	tableMarginLeft			: Default is 0.
+	tableMarginTop			: Default is 0.
+
+	======================================
+	Sample Usage:
+	======================================
+	<c:set var="tableId" value="widgets" />
+	<c:set var="tableHeadings" value="ID,100,left|Name,200,left|Active,50,right" />
+	<c:set var="tableRowCount" value="${fn:length(model.widgetList)}" />
+	<c:set var="tableContainerWidth" value="814" />
+	<c:set var="tableDisplayRowCount" value="15" />
+	<%@ include file="template/tableHeader.jspf" %>
+		<c:forEach items="${model.widgetList}" varStatus="status" var="widget">
+			<%@ include file="template/tableRowHeader.jspf" %>
+				<td>${widget.id}</td>
+				<td>${widget.name}</td>
+				<td align="right">${widget.active}</td>
+			</tr>
+		</c:forEach>
+	<%@ include file="template/tableFooter.jspf" %>
+--%>
+<!-- table Start -->
+<c:set var="tableHeadingRowHeight" value="24" />
+<c:set var="tableRowHeight" value="24" />
+<c:if test="${empty tableDisplayRowCount}">
+	<c:set var="tableDisplayRowCount" value="10" />
+</c:if>
+<c:set var="tableRowNumberWidth" value="24" />
+<c:set var="tableTotalColumnWidth" value="${tableRowNumberWidth}" />
+<c:forTokens items="${tableHeadings}" varStatus="status" var="heading" delims="|">
+	<c:set var="parseColumn" value="${heading}" />
+	<%@ include file="parseColumn.jspf" %>
+	<c:set var="tableTotalColumnWidth" value="${tableTotalColumnWidth + parseColumnWidth}" />
+</c:forTokens>
+<c:set var="tableWidth" value="${tableTotalColumnWidth}" />
+<c:if test="${empty tableContainerWidth || tableContainerWidth <= 0}">
+	<c:set var="tableContainerWidth" value="${tableWidth}" />
+</c:if>
+<c:if test="${empty tableScrollX || tableScrollX == '' || tableScrollX == 'auto'}">
+	<c:set var="tableScrollX" value="${tableWidth > tableContainerWidth  ? 'scroll' : 'hidden'}" />
+</c:if>
+<c:if test="${empty tableScrollY || tableScrollY == '' || tableScrollY == 'auto'}">
+	<c:set var="tableScrollY" value="${tableRowCount > tableDisplayRowCount  ? 'scroll' : 'hidden'}" />
+</c:if>
+<c:set var="tableScrollBarXHeight" value="${tableWidth > tableContainerWidth  ? '16' : '0'}" />
+<c:set var="tableScrollBarYWidth" value="${tableRowCount > tableDisplayRowCount  ? '16' : '0'}" />
+<c:set var="tableHeight" value="${(tableRowHeight * tableDisplayRowCount)}" />
+<c:set var="tableContainerHeight" value="${tableHeight + tableHeadingRowHeight}" />
+<c:if test="${empty tableIsShowRowNumbers || tableIsShowRowNumbers == ''}">
+	<c:set var="tableIsShowRowNumbers" value="true" />
+</c:if>
+<c:if test="${empty tableMarginLeft || tableMarginLeft == ''}">
+	<c:set var="tableMarginLeft" value="0" />
+</c:if>
+<c:if test="${empty tableMarginTop || tableMarginTop == ''}">
+	<c:set var="tableMarginTop" value="0" />
+</c:if>
+<div id="divTable${tableId}" name="divTable${tableId}" class="tbsStyleTableBorder tbsStyleShadow2" style="margin-left:${tableMarginLeft}px; margin-top:${tableMarginTop}px; position:relative; top:0px; left:0px; height:${tableContainerHeight}px; width:${tableContainerWidth}px; overflow:hidden;">
+	<div id="divTableHeader${tableId}" name="divTableHeader${tableId}" style="position:absolute; top:0px; height:${tableHeadingRowHeight}px; width:${tableRowNumberWidth}px; overflow:hidden;">
+		<table id="tableHeader${tableId}" name="tableHeader${tableId}" style="height:${tableHeadingRowHeight}px; width:${tableRowNumberWidth}px; table-layout:fixed;" border="0" cellpadding="0" cellspacing="0">
+			<colgroup>
+				<col style="width:${tableRowNumberWidth}px;">
+			</colgroup>
+			<tbody>
+				<tr style="height:${tableHeadingRowHeight}px;">
+					<td class="tbsStyleTableHeading">&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div id="divTableFrozenCols${tableId}" name="divTableFrozenCols${tableId}" style="position:absolute; top:${tableHeadingRowHeight}px; height:${tableHeight}px; width:${tableRowNumberWidth}px; overflow:hidden;" >
+		<table id="tableFrozenCols${tableId}" style="height:${tableHeight + tableScrollBarXHeight}px; width:${tableRowNumberWidth}px; table-layout:fixed;" border="0" cellpadding="0" cellspacing="0">
+			<colgroup>
+				<col style="width:${tableRowNumberWidth}px;">
+			</colgroup>
+			<tbody>
+				<c:forEach var="i" begin="1" end="${tableRowCount}">
+					<tr valign="center" style="height:${tableRowHeight}px;">
+						<td class="tbsStyleTableRowNumber" style="font-weight:normal;">
+							${tableIsShowRowNumbers == "true" ? i : "" }&nbsp;
+						</td>
+					</tr>
+				</c:forEach>
+				<c:forEach var="i" begin="${tableRowCount + 1}" end="${tableDisplayRowCount}">
+					<tr valign="center" style="height:${tableRowHeight}px;">
+						<td class="tbsStyleTableRowNumber">&nbsp;</td>
+					</tr>
+				</c:forEach>
+				<tr style="height:${tableScrollBarXHeight}px;">
+					<td class="tbsStyleTableRowNumber"> &nbsp; </td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div id="divTableHeadingCols${tableId}" name="divTableHeadingCols${tableId}" style="position:absolute; top:0px; left:${tableRowNumberWidth}px; width:${tableContainerWidth - tableRowNumberWidth}px; overflow:hidden;">
+		<table id="tableHeadingCols${tableId}" style="width:${tableWidth - tableRowNumberWidth + tableScrollBarYWidth}px; table-layout:fixed;" border="0" cellpadding="0" cellspacing="0">
+			<colgroup>
+				<c:forTokens items="${tableHeadings}" varStatus="status" var="heading" delims="|">
+					<c:set var="parseColumn" value="${heading}" />
+					<%@ include file="parseColumn.jspf" %>
+					<c:set var="headingWidth" value="${status.last ? (parseColumnWidth + tableScrollBarYWidth) : parseColumnWidth}" />
+					<col style="width:${headingWidth}px;">
+				</c:forTokens>
+			</colgroup>
+			<tbody>
+				<tr style="height:${tableHeadingRowHeight}px;">
+					<c:forTokens items="${tableHeadings}" varStatus="status" var="heading" delims="|">
+						<c:set var="parseColumn" value="${heading}" />
+						<%@ include file="parseColumn.jspf" %>
+						<td class="tbsStyleTableHeading" style="text-align:${parseColumnAlign}" >
+							${parseColumnName}
+						</td>
+					</c:forTokens>
+				</tr>
+			</tbody>
+		</table>
+	</div> <!-- divTableHeadingCols -->
+
+	<div id="divTableDataCols${tableId}" name="divTableDataCols${tableId}" style="position:absolute; top:${tableHeadingRowHeight}px; left:${tableRowNumberWidth}px; height:${tableHeight}px; width:${tableContainerWidth - tableRowNumberWidth}px; overflow-x:${tableScrollX}; overflow-y:${tableScrollY};" 
+			onScroll="jScript.common.syncXYScroll('divTableDataCols${tableId}', 'divTableHeadingCols${tableId}', 'divTableFrozenCols${tableId}');">
+		<table id="tableDataCols${tableId}" name="tableDataCols${tableId}" style="width:${tableWidth - tableRowNumberWidth}px; table-layout:fixed;" border="0" cellpadding="0" cellspacing="0">
+			<colgroup>
+				<c:forTokens items="${tableHeadings}" varStatus="status" var="heading" delims="|">
+					<c:set var="parseColumn" value="${heading}" />
+					<%@ include file="parseColumn.jspf" %>
+					<col style="width:${parseColumnWidth}px;">
+				</c:forTokens>
+			</colgroup>
+			<tbody>

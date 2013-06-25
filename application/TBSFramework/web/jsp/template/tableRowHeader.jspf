@@ -1,0 +1,3 @@
+<tr id="tableDataRow${tableId}${status.count}" name="tableDataRow${tableId}${status.count}" class="tbsStyleTableRow" valign="center" style="height:${tableRowHeight}px;" 
+	onClick="jScript.common.selectRow(this);" ${tableRowAttributes} >
+	<!-- onMouseOver="jScript.common.highlightRow(this);" onMouseOut="jScript.common.unHighlightRow(this);"  -->

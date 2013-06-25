@@ -1,0 +1,4 @@
+<c:set var="buttonId" value="buttonAdd" />
+<c:set var="buttonImage" value="add2_24.png" />
+<c:set var="buttonText" value="Add Row" />
+<%@ include file="button.jspf" %>

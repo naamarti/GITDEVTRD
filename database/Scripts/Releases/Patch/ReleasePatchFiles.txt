@@ -1,0 +1,38 @@
+::***************************************************************************************
+:: Instructions:
+::   a. List each Patch script, which must exist in "database\Scripts\Releases\Patch\":
+::          common.Patch.xxxxx.sql
+::          recon.Patch.xxxxx.sql
+::          program.Patch.xxxxx.sql
+::
+::   b. List each object that needs to be deployed, prefixed by [DBNAME].[TYPE]. :
+::          common.view.xxxxx.sql
+::          common.function.xxxxx.sql
+::          common.procedure.xxxxx.sql
+::          common.trigger.xxxxx.sql
+::          ...
+::          recon.procedure.xxxxx.sql
+::          ...
+::          program.procedure.xxxxx.sql
+::
+::***************************************************************************************
+
+::-------------------------------------------------------------------------
+:: 01. common
+::-------------------------------------------------------------------------
+::common.Patch.UpdateSequenceNumbers.sql
+common.Patch.ChangePensonNyToApex.sql
+
+
+
+::-------------------------------------------------------------------------
+:: 02. recon
+::-------------------------------------------------------------------------
+
+
+
+::-------------------------------------------------------------------------
+:: 03. program
+::-------------------------------------------------------------------------
+program.procedure.p_j_RBC_Allocate_PendingDeposits_Late.sql
+

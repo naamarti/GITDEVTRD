@@ -1,0 +1,3 @@
+<fmt:timeZone value="America/New_York">
+	<fmt:formatDate value="${formatDateValue}" pattern="MMM d yyyy h:mm aaa " />
+</fmt:timeZone>

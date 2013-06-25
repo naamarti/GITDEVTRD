@@ -1,0 +1,17 @@
+			</tbody>
+		</table>
+	</div> <!-- divTableDataCols -->
+
+</div> <!-- divTable -->
+<c:set var="tableId" value="" />
+<c:set var="tableHeadings" value="" />
+<c:set var="tableRowCount" value="" />
+<c:set var="tableContainerWidth" value="" />
+<c:set var="tableDisplayRowCount" value="" />
+<c:set var="tableData" value="" />
+<c:set var="tableScrollX" value="" />
+<c:set var="tableScrollY" value="" />
+<c:set var="tableIsShowRowNumbers" value="" />
+<c:set var="tableMarginLeft" value="" />
+<c:set var="tableMarginTop" value="" />
+<!-- table End -->

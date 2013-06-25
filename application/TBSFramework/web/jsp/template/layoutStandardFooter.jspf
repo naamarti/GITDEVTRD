@@ -1,0 +1,12 @@
+				</div> <!-- divPageBody -->
+				<%@ include file="pageStatus.jspf" %>
+			</div> <!-- divLayoutRight -->
+		</div> <!-- divLayout -->
+		<%@ include file="pageFooter.jspf" %>
+		<%@ include file="popUpForm.jspf" %>
+		<%@ include file="popUpMessage.jspf" %>
+		<%@ include file="formHiddenSessionFields.jspf" %>
+	</form>
+</body>
+</html>
+<!-- layoutStandard End -->

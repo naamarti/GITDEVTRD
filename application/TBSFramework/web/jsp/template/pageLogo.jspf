@@ -1,0 +1,7 @@
+<!-- pageLogo Start -->
+<div id="divPageLogo" name="divPageLogo" style="width:${layoutPageLogoWidth}px; height:33px; overflow:hidden;" >
+	<div style="margin-left:3px; width:96px; height:31px;" >
+		<img src="images/TBSLogo-new.gif" style="width:96px; height:31px;" >
+	</div>
+</div>
+<!-- pageLogo End -->

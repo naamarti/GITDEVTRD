@@ -1,0 +1,16 @@
+package com.totalbanksolutions.framework.web.enums;
+
+public enum WebTableCellFormatType {
+	  FREE_FORM_TEXT
+	, BASIS_POINT
+	, CHECKMARK
+	, CURRENCY
+	, CURRENCY_0DIGIT_PRECISION
+	, DECIMAL_0DIGIT_PRECISION
+	, DECIMAL_2DIGIT_PRECISION
+	, DECIMAL_4DIGIT_PRECISION
+	, PERCENTAGE
+	, DATE
+	, LINK
+	;
+}

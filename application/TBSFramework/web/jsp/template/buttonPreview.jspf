@@ -1,0 +1,4 @@
+<c:set var="buttonId" value="buttonPreview" />
+<c:set var="buttonImage" value="zoom2_16.png" />
+<c:set var="buttonText" value="Preview" />
+<%@ include file="button.jspf" %>

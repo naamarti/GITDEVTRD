@@ -1,0 +1,72 @@
+<%--
+[ Layout ----------------------------------------------------------------------------------------]
+|                                                                                                |
+|    [ LayoutLeft -------]    [ LayoutRight ------------------------------------------------]    |
+|    |                   |    |                                                             |    |
+|    |  [ Logo ====== ]  |    |  [ Header ===============================================]  |    |
+|    |  | %%%%%%%%%%% |  |    |  | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |    |
+|    |  [=============]  |    |  [=======================================================]  |    |
+|    |                   |    |                                                             |    |
+|    |  [ PrimaryMenu ]  |    |  [ SecondaryMenu ========================================]  |    |
+|    |  | %%%%%%%%%%% |  |    |  | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |    |
+|    |  | %%%%%%%%%%% |  |    |  [=======================================================]  |    |
+|    |  | %%%%%%%%%%% |  |    |                                                             |    |
+|    |  | %%%%%%%%%%% |  |    |  [ Body =================================================]  |    |
+|    |  | %%%%%%%%%%% |  |    |  | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |    |
+|    |  | %%%%%%%%%%% |  |    |  | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |    |
+|    |  | %%%%%%%%%%% |  |    |  | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |    |
+|    |  | %%%%%%%%%%% |  |    |  | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |    |
+|    |  | %%%%%%%%%%% |  |    |  | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |    |
+|    |  [=============]  |    |  [=======================================================]  |    |
+|    |                   |    |                                                             |    |
+|    |                   |    |  [ Status ===============================================]  |    |
+|    |                   |    |  | %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |  |    |
+|    |                   |    |  [=======================================================]  |    |
+|    |                   |    |                                                             |    |
+|    [-------------------]    [-------------------------------------------------------------]    |
+|                                                                                                |
+[------------------------------------------------------------------------------------------------]
+
+[ Footer ----------------------------------------------------------------------------------------]
+| %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% |
+[------------------------------------------------------------------------------------------------]
+--%>
+<c:set var="layoutWidth" value="960" />
+<c:set var="layoutLeftWidth" value="130" />
+<c:set var="layoutPageBodyMinHeight" value="400" />
+<c:set var="layoutRightWidth" value="${layoutWidth - layoutLeftWidth}" />
+<c:set var="layoutPageLogoWidth" value="${layoutLeftWidth}" />
+<c:set var="layoutPrimaryMenuWidth" value="${layoutLeftWidth}" />
+<c:set var="layoutPageHeaderWidth" value="${layoutRightWidth}" />
+<c:set var="layoutSecondaryMenuWidth" value="${layoutRightWidth}" />
+<c:set var="layoutPageBodyWidth" value="${layoutRightWidth}" />
+<c:set var="layoutPageStatusWidth" value="${layoutRightWidth}" />
+<c:set var="layoutPageFooterWidth" value="${layoutWidth}" />
+<c:set var="layoutHasPageBorder" value="true" />
+<!-- layoutStandard Start -->
+<html>
+<head>
+	<%@ include file="pageHeaderSettings.jspf" %>
+	<c:if test="${not empty javaScriptFile}">
+		<script src="js/${javaScriptFile}" type="text/javascript"></script>
+	</c:if>
+	<c:if test="${not empty javaScriptOnReady}">
+		<script>
+			jQuery(document).ready(function () {
+				${javaScriptOnReady}
+			});
+		</script>
+	</c:if>
+</head>
+<body style="background:url(../images/beige031.jpg) repeat scroll left top transparent;" >
+	<a name="cccc"></a>
+	<form id="mainForm" name="mainForm" method="post">
+		<div id="divLayout" style="width:${layoutWidth}px; overflow:hidden; ">
+			<div id="divLayoutLeft" style="width:${layoutLeftWidth}px; float:left; overflow:hidden; ">
+				<%@ include file="pageLogo.jspf" %>
+				<%@ include file="menuPrimary.jspf" %>
+			</div>
+			<div id="divLayoutRight" style="width:${layoutRightWidth}px; float:left; overflow:hidden; ">
+				<%@ include file="pageHeader.jspf" %>
+				<%@ include file="menuSecondary.jspf" %>
+				<div id="divPageBody" name="divPageBody" style="position:relative; left:0px; top:0px; width:${layoutPageBodyWidth-2}px; min-height:${layoutPageBodyMinHeight}px; background-color:#FFFFFF; border:1px solid #808080; border-top:none; border-bottom:none; overflow:hidden;" >

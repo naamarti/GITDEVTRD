@@ -1,0 +1,11 @@
+<!-- formHiddenSessionFields Start -->
+<input type="hidden" id="sessionKey" name="sessionKey" value="${model.user.sessionKey}">
+<input type="hidden" id="sessionMessageError" name="sessionMessageError" value="${model.sessionMessageError}">
+<input type="hidden" id="sessionMessageInfo" name="sessionMessageInfo" value="${model.sessionMessageInfo}">
+<input type="hidden" id="sessionMessageSuccess" name="sessionMessageSuccess" value="${model.sessionMessageSuccess}">
+<input type="hidden" id="sessionMessageWarning" name="sessionMessageWarning" value="${model.sessionMessageWarning}">
+<input type="hidden" id="sessionNavigationId" name="sessionNavigationId" value="${model.user.navigationId}">
+<input type="hidden" id="sessionSelectedId" name="sessionSelectedId" value="">
+<input type="hidden" id="sessionUserAction" name="sessionUserAction" value="">
+<input type="hidden" id="sessionUserId" name="sessionUserId" value="${model.user.userId}">
+<!-- formHiddenSessionFields End -->

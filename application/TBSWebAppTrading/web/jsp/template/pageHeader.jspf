@@ -1,0 +1,27 @@
+<!-- pageHeader Start -->
+<jsp:useBean id="now" class="java.util.Date" />
+<div id="divPageHeader" name="divPageHeader" class="tbsStylePageHeader" style="margin-top:3px; width:${layoutPageHeaderWidth-2}px; height:31px; overflow:hidden;" >
+	<div style="width:420px; height:31px; float:right; text-align:right; text-align:top; vertical-align:top; overflow:hidden;" >
+		<font style="font-family: Verdana, Arial; font-size:24px; font-weight:bold; color:#7498AD; vertical-align:top; text-shadow:0.1em 0.1em 0.1em black;" >TBS</font>
+		<font style="margin-left:3px; font-family: Verdana, Arial; font-size:24px; font-weight:bold; color:#F6901B; vertical-align:top; text-shadow:0.1em 0.1em 0.1em black;">Units Trading</font>
+		<font style="font-family: Verdana, Arial; font-size:8px; font-weight:bold; color:#555555; vertical-align:top; text-shadow:0.1em 0.1em 0.1em #AFAFAF;" >TM</font>
+	</div>
+	<div style="width:400px; height:31px; float:right; overflow:hidden; " >
+		<div style="padding-right:12px; margin-top:17px; text-align:center;" >
+			<fmt:timeZone value="America/New_York">
+				<fmt:formatDate value="${now}" pattern="EEEEE, MMM d yyyy, h:mm:ss a " />
+			</fmt:timeZone>
+			EST
+			<c:if test="${fn:length(model.environmentName) > 0}" >
+				&nbsp;&nbsp;|&nbsp;&nbsp;
+				${model.environmentName} Server v${model.versionNumber}
+			</c:if>
+			<c:if test="${model.user.userId > 0 && fn:length(model.user.sessionKey) > 0}" >
+				&nbsp;&nbsp;|&nbsp;&nbsp;
+				Welcome ${model.user.userName}
+			</c:if>
+		</div>
+	</div>
+</div>
+<%@ include file="pagePleaseWait.jspf" %>
+<!-- pageHeader End -->

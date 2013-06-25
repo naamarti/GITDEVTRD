@@ -1,0 +1,12 @@
+::-------------------------------------------------------------------------
+:: 01a. trading.Table.xxxxx.sql
+::-------------------------------------------------------------------------
+::trading.Table.PhaseII.Additions.sql
+::trading.Table.PhaseII.Modifications.sql
+
+::-------------------------------------------------------------------------
+:: 01b. trading.Data.xxxxx.sql
+::-------------------------------------------------------------------------
+::trading.Data.PhaseII.sql
+::trading.Data.CleanseProdDataForTest.sql
+trading.Data.ResetDate.sql

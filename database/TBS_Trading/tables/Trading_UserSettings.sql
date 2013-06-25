@@ -1,0 +1,22 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Trading_UserSettings](
+	[User_FK] [decimal](18, 0) NOT NULL,
+	[IsDisclaimerApproved] [bit] NOT NULL,
+ CONSTRAINT [PK_Trading_UserSettings] PRIMARY KEY CLUSTERED 
+(
+	[User_FK] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING OFF
+GO
+ALTER TABLE [dbo].[Trading_UserSettings]  WITH CHECK ADD  CONSTRAINT [FK_Trading_UserSettings_Users] FOREIGN KEY([User_FK])
+REFERENCES [dbo].[AppUser] ([User_PK])
+GO
+ALTER TABLE [dbo].[Trading_UserSettings] CHECK CONSTRAINT [FK_Trading_UserSettings_Users]
+GO

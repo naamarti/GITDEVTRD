@@ -1,0 +1,28 @@
+<!-- tableAuto Start -->
+<c:if test="${empty tableHeadings || tableHeadings == ''}" >
+	<c:forEach items="${tableData.columnList}" varStatus="status" var="col">
+		<c:set var="tableColSize" value="150" />
+		<c:if test="${col.size > 50}" >
+			<c:set var="tableColSize" value="250" />
+		</c:if>
+		<c:set var="tableHeadings" value="${tableHeadings}${col.label},${tableColSize},left" />
+		<c:if test="${status.last == false}" >
+			<c:set var="tableHeadings" value="${tableHeadings}|" />
+		</c:if>
+	</c:forEach>
+</c:if>
+<c:set var="tableRowCount" value="${fn:length(tableData.rowList)}" />
+<%@ include file="tableHeader.jspf" %>
+	<c:forEach items="${tableData.rowList}" varStatus="status" var="row">
+		<%@ include file="tableRowHeader.jspf" %>
+			<c:forEach items="${row.columnList}" varStatus="status2" var="col">
+				<td class="tbsStyleTableData">
+					${col.value}&nbsp;
+				</td>
+			</c:forEach>
+		</tr>
+	</c:forEach>
+<%@ include file="tableFooter.jspf" %>
+<c:set var="tableId" value="" />
+<c:set var="tableData" value="" />
+<!-- tableAuto End -->

@@ -1,0 +1,16 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+CREATE FUNCTION [dbo].[toDec](@s varchar(20))
+RETURNS decimal(18,2)
+AS
+BEGIN
+	RETURN convert(decimal(18,2), CASE WHEN @s<>'' THEN @s ELSE '0' END)
+END
+
+ 
+GO

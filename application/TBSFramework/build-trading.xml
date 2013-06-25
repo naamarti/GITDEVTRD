@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<project name="TBSFrameworkTrading" basedir="." default="init">
+
+	<!-- 
+	 * =================================================================================================
+	 * Modified:  12 Dec 2012 VC
+	 * ================================================================================================= 
+    -->
+
+	<!-- Local Properties for this build file -->
+	<property name="framework.dir.source.root" value="${basedir}"/>
+	<property name="framework.jarfile" value="TBSFrameworkTrading.jar"/>
+	<property name="framework.projectname" value="TBSFrameworkTrading"/>
+	
+	<path id="master-classpath">
+		<fileset dir="${deploy.dir.source.shared.lib}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="init-framework" depends="" description="Init">
+		<record name="${deploy.log}" loglevel="info" append="true"/>
+		
+		<echo message=""/>
+		<echo message="-------------------------------------------------------------------------"/>
+		<echo message="TBSFrameworkTrading build file"/>
+		<echo message="-------------------------------------------------------------------------"/>
+		<echo message="basedir                             = ${basedir}"/>
+		<echo message="deploy.env.to                       = ${deploy.env.to}"/>
+		<echo message="isLocalDeploy                       = ${isLocalDeploy}"/>
+		<echo message="deploy.logginglevel                 = ${deploy.logginglevel}"/>
+		<echo message="deploy.sql.server                   = ${deploy.sql.server}"/>
+		<echo message="deploy.sql.user                     = ${deploy.sql.user}"/>
+		<echo message="deploy.sql.password                 = ${deploy.sql.password}"/>
+		<echo message="deploy.sql.javaconnectionstring     = ${deploy.sql.javaconnectionstring}"/>
+		<echo message="deploy.dir.source.shared.lib        = ${deploy.dir.source.shared.lib}"/>
+		<echo message="deploy.dir.source.shared.bin        = ${deploy.dir.source.shared.bin}"/>
+		<echo message="deploy.dir.source.shared.framework  = ${deploy.dir.source.shared.framework}"/>
+		<echo message="deploy.dir.target.root              = ${deploy.dir.target.root}"/>
+		<echo message="deploy.log                          = ${deploy.log}"/>
+		<echo message="-------------------------------------------------------------------------"/>
+		<echo message="framework.dir.source.root           = ${framework.dir.source.root}"/>
+		<echo message="framework.jarfile                   = ${framework.jarfile}"/>
+		<echo message="-------------------------------------------------------------------------"/>
+		<echo message=""/>
+	</target>
+	
+	<target name="clean-framework" depends="init-framework" description="Clean output directories">
+		<delete verbose="true" failonerror="false" includeEmptyDirs="true">
+			<fileset dir="${framework.dir.source.root}bin/classes" />
+		</delete>
+		<delete file="${framework.dir.source.root}/lib/${framework.jarfile}" />
+	</target>
+	
+	<target name="deploy-framework-compile" description="Compile main source tree java files">
+		<mkdir dir="${framework.dir.source.root}/bin/classes"/>
+		<javac destdir="${framework.dir.source.root}/bin/classes" debug="true" deprecation="false" optimize="false" failonerror="true">
+			<src path="${framework.dir.source.root}/src"/>
+			<classpath refid="master-classpath"/>
+		</javac>
+	</target>
+
+	<target name="deploy-framework-dirs" depends="" description="Create required deployment directories">
+		<mkdir dir="${framework.dir.source.root}/lib"/>
+	</target>
+		
+	<target name="deploy-framework-jar" depends="" description="Create application jar file(s) and copy to deploy path(s)">
+		<jar jarfile="${framework.dir.source.root}/lib/${framework.jarfile}" basedir="${framework.dir.source.root}/bin/classes" />
+	</target>
+	
+	<target name="deploy-framework" description="Build TBSFramework and then all other projects dependent upon the framework"
+		depends="
+			init-framework,
+			deploy-framework-compile,
+			deploy-framework-dirs,
+			deploy-framework-jar"	>
+	</target>
+
+</project>

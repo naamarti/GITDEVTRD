@@ -1,0 +1,14 @@
+<c:choose>
+	<c:when test="${formatCurrencyValue > 0 }">
+		<c:set var="formatCurrencyColor" value="#008000" />
+	</c:when>
+	<c:when test="${formatCurrencyValue < 0 }">
+		<c:set var="formatCurrencyColor" value="#C60000" />
+	</c:when>
+	<c:otherwise>
+		<c:set var="formatCurrencyColor" value="#444444" />
+	</c:otherwise>
+</c:choose>
+<span style="color:${formatCurrencyColor};">
+	<fmt:formatNumber value="${formatCurrencyValue}" type="currency" currencyCode="USD"/>&nbsp;
+</span>

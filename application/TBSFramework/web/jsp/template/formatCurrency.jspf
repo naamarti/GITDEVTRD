@@ -1,0 +1,1 @@
+<fmt:formatNumber value="${formatCurrencyValue}" type="currency" currencyCode="USD"/>&nbsp;

@@ -1,0 +1,8 @@
+<%@ page buffer="100kb" %>
+<%@ page session="false" %>
+<%@ page errorPage="/WEB-INF/jsp/error.jsp" %>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="isErrorPage" value="false" />
